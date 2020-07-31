@@ -69,6 +69,9 @@ class amc(object):
         # Class Version and Author
         self.__version__ = "1.5.dev1"
         self.__author__ = "Dr. Kostas Alexandridis"
+        arcpy.AddMessage("Automated Map Checking (AMC) Python Class")
+        arcpy.AddMessage(self.__version__)
+        arcpy.AddMessage(self.__author__)
 
         # Python Class and Version
         self.pyclass = "AMC"
