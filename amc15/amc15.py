@@ -1368,10 +1368,11 @@ class amc(object):
                 tableData = {}
                 # loop through table rows, and write the results to the dictionary
                 with arcpy.da.SearchCursor("NEIGHBORS", ["OID@", "src_OBJECTID", "nbr_OBJECTID", "src_Shape_Area", "nbr_Shape_Area", "AREA", "LENGTH", "NODE_COUNT"]) as cursor:
-                    oid = row[0]
-                    if row[3] > row[4]: parentID = True
-                    elif row[3] < row[4]: parentID = False
-                    tableData[oid] = {"Source": row[1], "Neighbor": row[2], "Source Area": row[3], "Neighbor Area": row[4], "Overlap Area": row[5], "Overlap Length": row[6], "Node Count": row[7], "parent ID": parentID}
+                    for row in cursor:
+                        oid = row[0]
+                        if row[3] > row[4]: parentID = True
+                        elif row[3] < row[4]: parentID = False
+                        tableData[oid] = {"Source": row[1], "Neighbor": row[2], "Source Area": row[3], "Neighbor Area": row[4], "Overlap Area": row[5], "Overlap Length": row[6], "Node Count": row[7], "parent ID": parentID}
 
                 # Now check the data in the dictionary. There are two possibilities:
                 # if all the Lengths are equal to 0.0 then this is a case for Ajdacent Boundaries
