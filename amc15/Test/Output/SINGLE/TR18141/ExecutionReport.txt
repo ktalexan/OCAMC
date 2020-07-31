@@ -1,0 +1,346 @@
+                                EXECUTION REPORT                                
+                County of Orange, OC Survey Geospatial Services                 
+   Python Class AMC version 1.5 Execution Date and Time: 07/21/2020 09:14 AM    
+
+
+---------------------- PART 1: AMC BASE CHECKS EXECUTION -----------------------
+
+Script started on: 07/21/2020 09:14 AM
+
+Identifying Map Characteristics from CAD drawing: 
+	Map Type: Tract
+	Map ID: 18141
+	Map Book Type: Miscellaneous Maps
+
+Setting Spatial Reference: NAD83 State Plane California Zone 6 (ArcGIS ID: 102646)
+
+Geodatabase connection SPOCDSQL1205.sde not found. Script outside OCPW Domain.
+
+Project Geodatabase
+	Checking for geodatabase: Reference.gdb
+	...geodatabase exists.
+	...existing geodatabase removed.
+	...new geodatabase created.
+
+Added CAD drawing to geodatabase.
+	Start Time: Tuesday, July 21, 2020 9:14:08 AM
+	Succeeded at Tuesday, July 21, 2020 9:14:13 AM (Elapsed Time: 5.36 seconds)
+
+
+	Start Time: Tuesday, July 21, 2020 9:14:08 AM
+	Succeeded at Tuesday, July 21, 2020 9:14:13 AM (Elapsed Time: 5.36 seconds)
+
+
+Layer Checks
+	Check 1 of 18: V-ANNO (Annotation) in CAD Drawing: Passed
+	Check 2 of 18: V-LINE (Misc Lines) not in CAD Drawing: Failed
+	Check 3 of 18: V-LINE-CALC (Line Calc/Ties to POB) in CAD Drawing: Passed
+	Check 4 of 18: V-LINE-CNTR (Street Centerline) in CAD Drawing: Passed
+	Check 5 of 18: V-LINE-ESMT (Easement) in CAD Drawing: Passed
+	Check 6 of 18: V-LINE-LOTS (Property Line Lots) in CAD Drawing: Passed
+	Check 7 of 18: V-LINE-PCLS (C3D Parcel Lines and Parcel Annotation) not in CAD Drawing: Failed
+	Check 8 of 18: V-LINE-PIQ (Property Line Boundary) in CAD Drawing: Passed
+	Check 9 of 18: V-LINE-REF (Line Reference) not in CAD Drawing: Failed
+	Check 10 of 18: V-LINE-RTWY (Street Right of Way, ROW) in CAD Drawing: Passed
+	Check 11 of 18: V-LINE-TIE (Ties to Basis of Bearings) in CAD Drawing: Passed
+	Check 12 of 18: V-MISC (Misc and North Arrow) in CAD Drawing: Passed
+	Check 13 of 18: V-NODE-MON (Mon) not in CAD Drawing: Failed
+	Check 14 of 18: V-NODE-TABL (Table Data) not in CAD Drawing: Failed
+	Check 15 of 18: V-NODE-TPOB (True Point of Beginning) in CAD Drawing: Passed
+	Check 16 of 18: V-SHEET (Sheet Details) not in CAD Drawing: Failed
+	Check 17 of 18: V-VPORT (VPORT 1) not in CAD Drawing: Failed
+	Check 18 of 18: V-VPORT FREEZES (VPORT 2) not in CAD Drawing: Failed
+	One or more layers failed their checks, above. Please make sure all layers exist in the CAD drawing.
+
+
+Creating New Feature Classes in Geodatabase
+	Creating Polyline Feature Class CALC (Line Calc/Ties to POB) in geodatabase
+	Creating Polyline Feature Class CNTR (Street Centerline) in geodatabase
+	Creating Polyline Feature Class ESMT (Easement) in geodatabase
+	Creating Polyline Feature Class LOTS (Property Line Lots) in geodatabase
+	Creating Polyline Feature Class PIQ (Property Line Boundary) in geodatabase
+	Creating Polyline Feature Class RTWY (Street Right of Way, ROW) in geodatabase
+	Creating Polyline Feature Class TIE (Ties to Basis of Bearings) in geodatabase
+	Creating Point Feature Class TPOB (True Point of Beginning) in geodatabase
+	New feature classes created and added to the geodatabase.
+
+Creating Property Line Boundary Area (PARCELS) Polygon Feature Class.
+
+Boundary Polygon/Centroid Closure Check:
+	Number of Boundary Parcels: 1
+	Obtaining the centroid coordinates for each boundary polygon
+	Boundary area closure: Passed
+
+GPS Control Point Check
+	GPS Points Check: Passed (2 points)
+	Adding points to geodatabase:
+ 		Start Time: Tuesday, July 21, 2020 9:14:34 AM
+		Succeeded at Tuesday, July 21, 2020 9:14:35 AM (Elapsed Time: 0.58 seconds)
+
+
+Geodetic Control Geometry Check
+	Checking Geodetic Control Server Features: Failed. Script outside OCPW Domain
+
+True Point of Beginning (TPOB) Check
+	...Single-point detected in the drawing.
+	TPOB point layer exist in CAD drawing: Passed. 
+
+Expanded Boundary Layer Check:
+	Multi-boundary lines detected: Passed
+
+Map Server Location Checks
+	Checking City Boundaries from Server Features Failed: Script outside OCPW Domain.
+Tract Map Server Location Checks
+	Checking Tract Maps Server Features Failed: Script outside OCPW Domain.
+Number of parcels in boundary area: 1
+
+Traverse Course Report
+	Course Direction: clockwise
+	Course Order: 1
+		Course OID: 14
+		Course start point: (6121592.610366225, 2196552.2791226506)
+		Course end point: (6121560.930311471, 2196336.1368383914)
+		Course reversal: True
+	Course Order: 2
+		Course OID: 15
+		Course start point: (6121560.930311471, 2196336.1368383914)
+		Course end point: (6121409.062504977, 2196197.3851473927)
+		Course reversal: True
+	Course Order: 3
+		Course OID: 16
+		Course start point: (6121409.062504977, 2196197.3851473927)
+		Course end point: (6121049.86702913, 2195873.1177513152)
+		Course reversal: False
+	Course Order: 4
+		Course OID: 17
+		Course start point: (6121049.86702913, 2195873.1177513152)
+		Course end point: (6120895.554345638, 2195794.4338535666)
+		Course reversal: True
+	Course Order: 5
+		Course OID: 18
+		Course start point: (6120895.554345638, 2195794.4338535666)
+		Course end point: (6120810.497101054, 2195784.8879408985)
+		Course reversal: False
+	Course Order: 6
+		Course OID: 19
+		Course start point: (6120810.497101054, 2195784.8879408985)
+		Course end point: (6120783.238953471, 2195794.8433015645)
+		Course reversal: True
+	Course Order: 7
+		Course OID: 20
+		Course start point: (6120783.238953471, 2195794.8433015645)
+		Course end point: (6120104.682895884, 2196473.947914481)
+		Course reversal: True
+	Course Order: 8
+		Course OID: 21
+		Course start point: (6120104.682895884, 2196473.947914481)
+		Course end point: (6119964.572283715, 2196858.543601975)
+		Course reversal: True
+	Course Order: 9
+		Course OID: 22
+		Course start point: (6119964.572283715, 2196858.543601975)
+		Course end point: (6120295.306858465, 2197147.1224211454)
+		Course reversal: False
+	Course Order: 10
+		Course OID: 2
+		Course start point: (6120295.306858465, 2197147.1224211454)
+		Course end point: (6120373.749614969, 2197255.0897248983)
+		Course reversal: True
+	Course Order: 11
+		Course OID: 3
+		Course start point: (6120373.749614969, 2197255.0897248983)
+		Course end point: (6120377.012731805, 2197257.089064732)
+		Course reversal: True
+	Course Order: 12
+		Course OID: 1
+		Course start point: (6120377.012731805, 2197257.089064732)
+		Course end point: (6120391.501219884, 2197259.3840076476)
+		Course reversal: True
+	Course Order: 13
+		Course OID: 4
+		Course start point: (6120391.501219884, 2197259.3840076476)
+		Course end point: (6120395.222341061, 2197258.4906367213)
+		Course reversal: True
+	Course Order: 14
+		Course OID: 5
+		Course start point: (6120395.222341061, 2197258.4906367213)
+		Course end point: (6120557.498919383, 2197140.5896258056)
+		Course reversal: True
+	Course Order: 15
+		Course OID: 6
+		Course start point: (6120557.498919383, 2197140.5896258056)
+		Course end point: (6120912.692762807, 2197004.2434418052)
+		Course reversal: False
+	Course Order: 16
+		Course OID: 7
+		Course start point: (6120912.692762807, 2197004.2434418052)
+		Course end point: (6121045.5077858865, 2196990.28415215)
+		Course reversal: True
+	Course Order: 17
+		Course OID: 8
+		Course start point: (6121045.5077858865, 2196990.28415215)
+		Course end point: (6121422.621532977, 2197040.66003564)
+		Course reversal: False
+	Course Order: 18
+		Course OID: 9
+		Course start point: (6121422.621532977, 2197040.66003564)
+		Course end point: (6121479.641432047, 2196901.495943889)
+		Course reversal: False
+	Course Order: 19
+		Course OID: 10
+		Course start point: (6121479.641432047, 2196901.495943889)
+		Course end point: (6121474.550562963, 2196870.4720558077)
+		Course reversal: True
+	Course Order: 20
+		Course OID: 11
+		Course start point: (6121474.550562963, 2196870.4720558077)
+		Course end point: (6121484.119113386, 2196758.3321882337)
+		Course reversal: False
+	Course Order: 21
+		Course OID: 12
+		Course start point: (6121484.119113386, 2196758.3321882337)
+		Course end point: (6121509.907119557, 2196725.444786817)
+		Course reversal: True
+	Course Order: 22
+		Course OID: 13
+		Course start point: (6121509.907119557, 2196725.444786817)
+		Course end point: (6121592.610366225, 2196552.2791226506)
+		Course reversal: False
+	Traverse Course Incomplete: Failed
+
+Boundary Multiline Geometry Correction Check
+	OID 1: reversing direction
+	OID 2: reversing direction
+	OID 3: reversing direction
+	OID 4: reversing direction
+	OID 5: reversing direction
+	OID 6: keeping original direction
+	OID 7: reversing direction
+	OID 8: keeping original direction
+	OID 9: keeping original direction
+	OID 10: reversing direction
+	OID 11: keeping original direction
+	OID 12: reversing direction
+	OID 13: keeping original direction
+	OID 14: reversing direction
+	OID 15: reversing direction
+	OID 16: keeping original direction
+	OID 17: reversing direction
+	OID 18: keeping original direction
+	OID 19: reversing direction
+	OID 20: reversing direction
+	OID 21: reversing direction
+	OID 22: keeping original direction
+	Geometry Corrections Completed: Pass
+
+
+Script completed on: 07/21/2020 09:14 AM
+
+
+
+------------------- PART 2: AMC BOUNDARY FEATURE PROCESSING --------------------
+
+Script Started on: 07/21/2020 09:14 AM
+
+Processing Boundary Features for TR18141
+	Added 34 new fields to boundary feature class
+	Calculated and populated new fields in boundary feature class
+	Generated line and curve descriptions for boundary features
+	Corrected descriptions for Legal Description formatting
+	Multiline Descriptions added to JSON data string
+	Boundary Features Processing Complete: Passed
+
+Annotation Labels (Grid)
+	COID 1 (Curve): D=67°42'35"  R=196.06  L=231.70
+	COID 2 (Curve): D=11°47'43"  R=1000.99  L=206.07
+	COID 3 (Curve): D=11°06'44"  R=2498.98  L=484.67
+	COID 4 (Curve): D=41°13'36"  R=246.00  L=177.00
+	COID 5 (Line): S 83°35'47" W  85.59
+	COID 6 (Line): N 69°56'11" W  29.01
+	COID 7 (Curve): D=49°55'11"  R=1137.49  L=991.06
+	COID 8 (Line): N 20°01'01" W  409.32
+	COID 9 (Curve): D=25°47'17"  R=983.50  L=442.66
+	COID 10 (Line): N 35°59'59" E  133.45
+	COID 11 (Curve): D=44°59'31"  R=5.00  L=3.92
+	COID 12 (Line): N 80°59'57" E  14.66
+	COID 13 (Curve): D=45°01'07"  R=4.99  L=3.92
+	COID 14 (Line): S 53°59'59" E  200.58
+	COID 15 (Curve): D=29°58'32"  R=735.58  L=384.83
+	COID 16 (Line): S 84°00'00" E  133.54
+	COID 17 (Curve): D=27°13'02"  R=808.49  L=384.06
+	COID 18 (Line): S 22°16'49" E  150.39
+	COID 19 (Curve): D=63°11'51"  R=30.00  L=33.09
+	COID 20 (Curve): D=91°34'06"  R=78.51  L=125.48
+	COID 21 (Curve): D=25°08'41"  R=95.99  L=42.12
+	COID 22 (Line): S 25°31'44" E  191.90
+
+Annotation Labels (Ground)
+	COID 1 (Curve): D=67°42'35"  R=196.07  L=231.70
+	COID 2 (Curve): D=11°47'43"  R=1001.03  L=206.07
+	COID 3 (Curve): D=11°06'44"  R=2499.06  L=484.68
+	COID 4 (Curve): D=41°13'36"  R=246.00  L=177.01
+	COID 5 (Line): S 83°35'47" W  85.59
+	COID 6 (Line): N 69°56'11" W  29.02
+	COID 7 (Curve): D=49°55'11"  R=1137.53  L=991.09
+	COID 8 (Line): N 20°01'01" W  409.33
+	COID 9 (Curve): D=25°47'17"  R=983.53  L=442.67
+	COID 10 (Line): N 35°59'59" E  133.45
+	COID 11 (Curve): D=44°59'31"  R=5.00  L=3.92
+	COID 12 (Line): N 80°59'57" E  14.66
+	COID 13 (Curve): D=45°01'07"  R=4.99  L=3.92
+	COID 14 (Line): S 53°59'59" E  200.59
+	COID 15 (Curve): D=29°58'32"  R=735.60  L=384.85
+	COID 16 (Line): S 84°00'00" E  133.55
+	COID 17 (Curve): D=27°13'02"  R=808.52  L=384.07
+	COID 18 (Line): S 22°16'49" E  150.39
+	COID 19 (Curve): D=63°11'51"  R=30.00  L=33.09
+	COID 20 (Curve): D=91°34'06"  R=78.51  L=125.48
+	COID 21 (Curve): D=25°08'41"  R=96.00  L=42.13
+	COID 22 (Line): S 25°31'44" E  191.90
+
+Script Completed on 07/21/2020 09:15 AM
+
+
+
+------------------- PART 3: AMC LEGAL DESCRIPTION PROCESSING -------------------
+
+Script Started on: 07/21/2020 09:15 AM
+
+
+
+LEGAL DESCRIPTION (GRID)
+
+	That portion of Lot 1 of Tract No. 18141, in the {}, County of {}, State of California, as per map filed in Book <Book No.>, pages <Pages> of Miscellaneous Maps in the Office of the County Recorder of said County, more particularly described as follows:
+	COMMENCING at Orange County Horizontal Control Station "GPS NO. 1396" having a State Plane Coordinate Value of Northing 6117134.83 and Easting 2203331.87; Thence South 39°11'23" East, 7820.59 feet to Station "GPS NO. 0980"; Thence South 33°58'47" West, 866.37 feet to the TRUE POINT OF BEGINNING having a State Plane Coordinate Value of Northing 6121592.61 and Easting 2196552.27, to the beginning of a non-tangent curve, concave westerly, and having a radius of 196.06 feet, a radial bearing to said beginning of curve bears North 02°07'26" East.
+	Thence from said TRUE POINT OF BEGINNING to the beginning of a non-tangent curve, concave westerly, and having a radius of 196.06 feet, a radial line to said beginning of curve bears North 02°07'26" East; Thence southerly along said curve 231.70 feet through a central angle of 67°42'35"; to the beginning of a non-tangent curve, concave northwesterly, and having a radius of 1000.99 feet, a radial line to said beginning of curve bears North 47°18'32" East; Thence southwesterly along said curve 206.07 feet through a central angle of 11°47'43"; to the beginning of a non-tangent curve, concave southeasterly, and having a radius of 2498.98 feet, a radial line to said beginning of curve bears North 48°10'15" East; Thence southwesterly along said curve 484.67 feet through a central angle of 11°06'44"; to the beginning of a non-tangent curve, concave northwesterly, and having a radius of 246.00 feet, a radial line to said beginning of curve bears North 60°16'19" East; Thence southwesterly along said curve 177.00 feet through a central angle of 41°13'36"; Thence South 83°35'47" West, 85.59 feet; Thence North 69°56'11" West, 29.01 feet; to the beginning of a non-tangent curve, concave northeasterly, and having a radius of 1137.49 feet, a radial line to said beginning of curve bears South 48°44'04" East; Thence northwesterly along said curve 991.06 feet through a central angle of 49°55'11"; Thence North 20°01'01" West, 409.32 feet; to the beginning of a non-tangent curve, concave northwesterly, and having a radius of 983.50 feet, a radial line to said beginning of curve bears South 50°04'30" West; Thence northeasterly along said curve 442.66 feet through a central angle of 25°47'17"; Thence North 35°59'59" East, 133.45 feet; to the beginning of a non-tangent curve, concave southeasterly, and having a radius of 5.00 feet, a radial line to said beginning of curve bears South 55°21'13" West; Thence northeasterly along said curve 3.92 feet through a central angle of 44°59'31"; Thence North 80°59'57" East, 14.66 feet; to the beginning of a non-tangent curve, concave southerly, and having a radius of 4.99 feet, a radial line to said beginning of curve bears North 79°39'11" West; Thence easterly along said curve 3.92 feet through a central angle of 45°01'07"; Thence South 53°59'59" East, 200.58 feet; to the beginning of a non-tangent curve, concave northerly, and having a radius of 735.58 feet, a radial line to said beginning of curve bears North 67°27'06" West; Thence easterly along said curve 384.83 feet through a central angle of 29°58'32"; Thence South 84°00'00" East, 133.54 feet; to the beginning of a non-tangent curve, concave northerly, and having a radius of 808.49 feet, a radial line to said beginning of curve bears South 83°41'35" West; Thence easterly along said curve 384.06 feet through a central angle of 27°13'02"; Thence South 22°16'49" East, 150.39 feet; to the beginning of a non-tangent curve, concave westerly, and having a radius of 30.00 feet, a radial line to said beginning of curve bears North 03°45'44" East; Thence southerly along said curve 33.09 feet through a central angle of 63°11'51"; to the beginning of a non-tangent curve, concave easterly, and having a radius of 78.51 feet, a radial line to said beginning of curve bears North 05°07'14" East; Thence southerly along said curve 125.48 feet through a central angle of 91°34'06"; to the beginning of a non-tangent curve, concave southwesterly, and having a radius of 95.99 feet, a radial line to said beginning of curve bears North 39°13'45" West; Thence southeasterly along said curve 42.12 feet through a central angle of 25°08'41"; Thence South 25°31'44" East, 191.90 feet; to the TRUE POINT OF BEGINNING
+
+
+
+LEGAL DESCRIPTION (GROUND)
+
+	That portion of Lot 1 of Tract No. 18141, in the {}, County of {}, State of California, as per map filed in Book <Book No.>, pages <Pages> of Miscellaneous Maps in the Office of the County Recorder of said County, more particularly described as follows:
+	COMMENCING at Orange County Horizontal Control Station "GPS NO. 1396" having a State Plane Coordinate Value of Northing 6117332.42 and Easting 2203403.04; Thence South 39°11'23" East, 7820.84 feet to Station "GPS NO. 0980"; Thence South 33°58'47" West, 866.39 feet to the TRUE POINT OF BEGINNING having a State Plane Coordinate Value of Northing 6121790.34 and Easting 2196623.23, to the beginning of a non-tangent curve, concave westerly, and having a radius of 196.07 feet, a radial bearing to said beginning of curve bears North 02°07'26" East.
+	Thence from said TRUE POINT OF BEGINNING to the beginning of a non-tangent curve, concave westerly, and having a radius of 196.07 feet, a radial line to said beginning of curve bears North 02°07'26" East; Thence southerly along said curve 231.70 feet through a central angle of 67°42'35"; to the beginning of a non-tangent curve, concave northwesterly, and having a radius of 1001.03 feet, a radial line to said beginning of curve bears North 47°18'32" East; Thence southwesterly along said curve 206.07 feet through a central angle of 11°47'43"; to the beginning of a non-tangent curve, concave southeasterly, and having a radius of 2499.06 feet, a radial line to said beginning of curve bears North 48°10'15" East; Thence southwesterly along said curve 484.68 feet through a central angle of 11°06'44"; to the beginning of a non-tangent curve, concave northwesterly, and having a radius of 246.00 feet, a radial line to said beginning of curve bears North 60°16'19" East; Thence southwesterly along said curve 177.01 feet through a central angle of 41°13'36"; Thence South 83°35'47" West 85.59 feet; Thence North 69°56'11" West 29.02 feet; to the beginning of a non-tangent curve, concave northeasterly, and having a radius of 1137.53 feet, a radial line to said beginning of curve bears South 48°44'04" East; Thence northwesterly along said curve 991.09 feet through a central angle of 49°55'11"; Thence North 20°01'01" West 409.33 feet; to the beginning of a non-tangent curve, concave northwesterly, and having a radius of 983.53 feet, a radial line to said beginning of curve bears South 50°04'30" West; Thence northeasterly along said curve 442.67 feet through a central angle of 25°47'17"; Thence North 35°59'59" East 133.45 feet; to the beginning of a non-tangent curve, concave southeasterly, and having a radius of 5.00 feet, a radial line to said beginning of curve bears South 55°21'13" West; Thence northeasterly along said curve 3.92 feet through a central angle of 44°59'31"; Thence North 80°59'57" East 14.66 feet; to the beginning of a non-tangent curve, concave southerly, and having a radius of 4.99 feet, a radial line to said beginning of curve bears North 79°39'11" West; Thence easterly along said curve 3.92 feet through a central angle of 45°01'07"; Thence South 53°59'59" East 200.59 feet; to the beginning of a non-tangent curve, concave northerly, and having a radius of 735.60 feet, a radial line to said beginning of curve bears North 67°27'06" West; Thence easterly along said curve 384.85 feet through a central angle of 29°58'32"; Thence South 84°00'00" East 133.55 feet; to the beginning of a non-tangent curve, concave northerly, and having a radius of 808.52 feet, a radial line to said beginning of curve bears South 83°41'35" West; Thence easterly along said curve 384.07 feet through a central angle of 27°13'02"; Thence South 22°16'49" East 150.39 feet; to the beginning of a non-tangent curve, concave westerly, and having a radius of 30.00 feet, a radial line to said beginning of curve bears North 03°45'44" East; Thence southerly along said curve 33.09 feet through a central angle of 63°11'51"; to the beginning of a non-tangent curve, concave easterly, and having a radius of 78.51 feet, a radial line to said beginning of curve bears North 05°07'14" East; Thence southerly along said curve 125.48 feet through a central angle of 91°34'06"; to the beginning of a non-tangent curve, concave southwesterly, and having a radius of 96.00 feet, a radial line to said beginning of curve bears North 39°13'45" West; Thence southeasterly along said curve 42.13 feet through a central angle of 25°08'41"; Thence South 25°31'44" East 191.90 feet; to the TRUE POINT OF BEGINNING
+
+
+Script Completed on 07/21/2020 09:15 AM
+
+
+
+Boundary Tabulation: Pass
+
+
+
+----------------------- PART 4: AMC PROCESS FINALIZATION -----------------------
+
+Script Started on: 07/21/2020 09:15 AM
+
+JSON Data String Output Written to Disk: jsonResponse.json
+
+
+Script Completed on 07/21/2020 09:15 AM
+
+
+
+                            END OF EXECUTION REPORT                             
+

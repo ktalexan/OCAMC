@@ -1,0 +1,100 @@
+                                EXECUTION REPORT                                
+                County of Orange, OC Survey Geospatial Services                 
+   Python Class AMC version 1.5 Execution Date and Time: 07/21/2020 11:08 AM    
+
+
+---------------------- PART 1: AMC BASE CHECKS EXECUTION -----------------------
+
+Script started on: 07/21/2020 11:08 AM
+
+Identifying Map Characteristics from CAD drawing: 
+	Map Type: Tract
+	Map ID: 18141
+	Map Book Type: Miscellaneous Maps
+
+Setting Spatial Reference: NAD83 State Plane California Zone 6 (ArcGIS ID: 102646)
+
+Geodatabase connection SPOCDSQL1205.sde not found. Script outside OCPW Domain.
+
+Project Geodatabase
+	Checking for geodatabase: Reference.gdb
+	...geodatabase exists.
+	...existing geodatabase removed.
+	...new geodatabase created.
+
+Added CAD drawing to geodatabase.
+	Start Time: Tuesday, July 21, 2020 11:08:16 AM
+	Succeeded at Tuesday, July 21, 2020 11:08:21 AM (Elapsed Time: 5.64 seconds)
+
+
+	Start Time: Tuesday, July 21, 2020 11:08:16 AM
+	Succeeded at Tuesday, July 21, 2020 11:08:21 AM (Elapsed Time: 5.64 seconds)
+
+
+Layer Checks
+	Check 1 of 18: V-ANNO (Annotation) in CAD Drawing: Passed
+	Check 2 of 18: V-LINE (Misc Lines) not in CAD Drawing: Failed
+	Check 3 of 18: V-LINE-CALC (Line Calc/Ties to POB) in CAD Drawing: Passed
+	Check 4 of 18: V-LINE-CNTR (Street Centerline) in CAD Drawing: Passed
+	Check 5 of 18: V-LINE-ESMT (Easement) in CAD Drawing: Passed
+	Check 6 of 18: V-LINE-LOTS (Property Line Lots) in CAD Drawing: Passed
+	Check 7 of 18: V-LINE-PCLS (C3D Parcel Lines and Parcel Annotation) not in CAD Drawing: Failed
+	Check 8 of 18: V-LINE-PIQ (Property Line Boundary) in CAD Drawing: Passed
+	Check 9 of 18: V-LINE-REF (Line Reference) not in CAD Drawing: Failed
+	Check 10 of 18: V-LINE-RTWY (Street Right of Way, ROW) in CAD Drawing: Passed
+	Check 11 of 18: V-LINE-TIE (Ties to Basis of Bearings) in CAD Drawing: Passed
+	Check 12 of 18: V-MISC (Misc and North Arrow) in CAD Drawing: Passed
+	Check 13 of 18: V-NODE-MON (Mon) not in CAD Drawing: Failed
+	Check 14 of 18: V-NODE-TABL (Table Data) not in CAD Drawing: Failed
+	Check 15 of 18: V-NODE-TPOB (True Point of Beginning) in CAD Drawing: Passed
+	Check 16 of 18: V-SHEET (Sheet Details) not in CAD Drawing: Failed
+	Check 17 of 18: V-VPORT (VPORT 1) not in CAD Drawing: Failed
+	Check 18 of 18: V-VPORT FREEZES (VPORT 2) not in CAD Drawing: Failed
+	One or more layers failed their checks, above. Please make sure all layers exist in the CAD drawing.
+
+
+Creating New Feature Classes in Geodatabase
+	Creating Polyline Feature Class CALC (Line Calc/Ties to POB) in geodatabase
+	Creating Polyline Feature Class CNTR (Street Centerline) in geodatabase
+	Creating Polyline Feature Class ESMT (Easement) in geodatabase
+	Creating Polyline Feature Class LOTS (Property Line Lots) in geodatabase
+	Creating Polyline Feature Class PIQ (Property Line Boundary) in geodatabase
+	Creating Polyline Feature Class RTWY (Street Right of Way, ROW) in geodatabase
+	Creating Polyline Feature Class TIE (Ties to Basis of Bearings) in geodatabase
+	Creating Point Feature Class TPOB (True Point of Beginning) in geodatabase
+	New feature classes created and added to the geodatabase.
+
+Creating Property Line Boundary Area (PARCELS) Polygon Feature Class.
+
+Boundary Polygon/Centroid Closure Check:
+	Number of Boundary Parcels: 2
+	Obtaining the centroid coordinates for each boundary polygon
+	Boundary area for polygon 1 closure: Passed
+
+	Boundary area for polygon 2 closure: Passed
+
+GPS Control Point Check
+	GPS Points Check: Passed (2 points)
+	Adding points to geodatabase:
+ 		Start Time: Tuesday, July 21, 2020 11:08:44 AM
+		Succeeded at Tuesday, July 21, 2020 11:08:44 AM (Elapsed Time: 0.54 seconds)
+
+
+Geodetic Control Geometry Check
+	Checking Geodetic Control Server Features: Failed. Script outside OCPW Domain
+
+True Point of Beginning (TPOB) Check
+	...Multi-point detected in the drawing.
+	TPOB point layer exist in CAD drawing: Passed. 
+
+Expanded Boundary Layer Check:
+	Multi-boundary lines detected: Passed
+
+Map Server Location Checks
+	Checking City Boundaries from Server Features Failed: Script outside OCPW Domain.
+Tract Map Server Location Checks
+	Checking Tract Maps Server Features Failed: Script outside OCPW Domain.
+Number of parcels in boundary area: 2
+
+Traverse Course Report
+	Course Direction: clockwise
