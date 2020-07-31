@@ -141,4 +141,32 @@ amc15|[1.5](#v15)|2020|Development|Adds additional parcel/map processing capabil
 
 - [ ] Need to move the boundary fields creation of the PIQ layers into the *createFeatureClasses()* function.
 
+<br>
+
+#### Update on ArcGIS 2.6 (7/31/2020) {#upd200731}
+
+- [x] The new ArcGIS Pro 2.6 arcpy (I believe) has changed the way the CAD drawing is imported to the geodatabase. Now, after import, the creation of a boundary parcel (for single and multiple parcels) fails to create unique parcels, as the parcel segments and parcel lines are both imported together in the V-LINE-PIQ multiline feature class.
+- [x] I noticed that it now creates an additional feature class called "ParcelSegment" in the "CAD" feature dataset imported to the geodatabase. This "ParcelSegment" multiline feature class does separate the different types in their attribute table. In the attribute "Layer", it does separate the "V-LINE-PIQ" (boundary edges) from "V-LINE-PCLS" (segments). Thus, we can use this process to create a new boundary polygon area, using arcpy:
+
+    ```python
+    # Set the arcpy workspace to the feature dataset of the 'CAD' group in the geodatabase (group created by CAD importing)
+    arcpy.env.workspace = os.path.join(gdbpath, "CAD")
+    arcpy.env.OverwriteOutput = True
+    
+    # Two possible options here
+
+    # First option:
+    fclist = arcpy.ListFeatureClasses() # List the feature classes in the feature dataset
+    if "ParcelSegment" in fclist:
+        layer1 = arcpy.SelectLayerByAttribute_management("ParcelSegment", "NEW_SELECTION", "Layer='V-LINE-PIQ'", "NON_INVERT")
+        arcpy.FeatureToPolygon_management(layer1, "Boundary")
+    
+    # Second option:
+    if arcpy.Exists("ParcelSegment"):
+        layer1 = arcpy.SelectLayerByAttribute_management("ParcelSegment", "NEW_SELECTION", "Layer='V-LINE-PIQ'", "NON_INVERT")
+        arcpy.FeatureToPolygon_management(layer1, "Boundary")
+    ```
+
+- [ ] 
+
 
