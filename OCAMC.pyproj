@@ -590,6 +590,9 @@
     <Content Include="amc15\AMC15AGP\Index\AMC15AGP\_2.cfs" />
     <Content Include="amc15\AMC15AGP\Index\Thumbnail\indx" />
     <Content Include="amc15\AMC15AGP\Index\Thumbnail\map.jpg" />
+    <Content Include="amc15\README.md">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="amc15\Test\AGP_AMC15\.pyHistory" />
     <Content Include="amc15\Test\AGP_AMC15\AGP_AMC15.aprx" />
     <Content Include="amc15\Test\AGP_AMC15\AGP_AMC15.gdb\a00000001.freelist" />
@@ -862,6 +865,9 @@
     <Content Include="amc15\Test\Output\SINGLE\TR18141\Reference.gdb\a00000017.spx" />
     <Content Include="amc15\Test\Output\SINGLE\TR18141\Reference.gdb\gdb" />
     <Content Include="amc15\Test\Output\SINGLE\TR18141\Reference.gdb\timestamps" />
+    <Content Include="amc16\README.md">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="DevNotes.md" />
     <Content Include="README.md" />
     <Content Include="samples\Boundary CAD Standards_07172020.xlsx" />
@@ -932,6 +938,10 @@
     <Folder Include="amc15\Test\Output\SINGLE\TR18141\" />
     <Folder Include="amc15\Test\Output\SINGLE\TR18141\Reference.gdb\" />
     <Folder Include="amc13\" />
+    <Folder Include="amc16\" />
+    <Folder Include="amc16\Test\" />
+    <Folder Include="amc16\Test\Input\" />
+    <Folder Include="amc16\Test\Output\" />
     <Folder Include="samples\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
