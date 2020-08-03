@@ -1,11 +1,11 @@
                                 EXECUTION REPORT                                
                 County of Orange, OC Survey Geospatial Services                 
-           Python Class Execution Date and Time: 07/06/2020 11:45 AM            
+           Python Class Execution Date and Time: 07/31/2020 04:52 AM            
 
 
 ---------------------- PART 1: AMC BASE CHECKS EXECUTION -----------------------
 
-Script started on: 07/06/2020 11:45 AM
+Script started on: 07/31/2020 04:52 AM
 
 Identifying Map Characteristics from CAD drawing: 
 	Map Type: Tract
@@ -14,9 +14,7 @@ Identifying Map Characteristics from CAD drawing:
 
 Setting Spatial Reference: NAD83 State Plane California Zone 6 (ArcGIS ID: 102646)
 
-Creating a server geodatabase connection:
-	Connection already exists: removing
-	Connection successfully created: SPOCDSQL1205.sde
+Geodatabase connection SPOCDSQL1205.sde not found. Script outside OCPW Domain.
 
 Project Geodatabase
 	Checking for geodatabase: Reference.gdb
@@ -25,12 +23,12 @@ Project Geodatabase
 	...new geodatabase created.
 
 Added CAD drawing to geodatabase.
-	Start Time: Monday, July 6, 2020 11:45:28 AM
-	Succeeded at Monday, July 6, 2020 11:45:31 AM (Elapsed Time: 3.26 seconds)
+	Start Time: Friday, July 31, 2020 4:52:29 AM
+	Succeeded at Friday, July 31, 2020 4:52:33 AM (Elapsed Time: 4.78 seconds)
 
 
-	Start Time: Monday, July 6, 2020 11:45:28 AM
-	Succeeded at Monday, July 6, 2020 11:45:31 AM (Elapsed Time: 3.26 seconds)
+	Start Time: Friday, July 31, 2020 4:52:29 AM
+	Succeeded at Friday, July 31, 2020 4:52:33 AM (Elapsed Time: 4.78 seconds)
 
 
 Layer Checks
@@ -46,19 +44,12 @@ Layer Checks
 GPS Control Point Check
 	GPS Points Check: Passed (2 points)
 	Adding points to geodatabase:
- 		Start Time: Monday, July 6, 2020 11:45:34 AM
-		Succeeded at Monday, July 6, 2020 11:45:35 AM (Elapsed Time: 0.37 seconds)
+ 		Start Time: Friday, July 31, 2020 4:52:38 AM
+		Succeeded at Friday, July 31, 2020 4:52:39 AM (Elapsed Time: 0.48 seconds)
 
 
 Geodetic Control Geometry Check
-	Checking Geodetic Control Server Features: OCSurvey.DBO.GEODETIC_HORIZONTAL
-	Geodetic control point no. 1396 located in server database
-		Transplanted geometry to CAD annotation layer from server points WKT attributes
-		Point coordinates written to JSON data string
-	Geodetic control point no. 0980 located in server database
-		Transplanted geometry to CAD annotation layer from server points WKT attributes
-		Point coordinates written to JSON data string
-	Geodetic Control Point Geometry Check: Passed
+	Checking Geodetic Control Server Features: Failed. Script outside OCPW Domain
 
 True Point of Beginning (TPOB) Check
 	TPOB layer exists in CAD drawing: Passed
@@ -71,25 +62,9 @@ Boundary Polygon/Centroid Closure Check:
 	Boundary area closure: Passed
 
 Map Server Location Checks
-	Checking City Boundaries Server Features: OCSurvey.DBO.CityBoundaries
-	Finiding locations in server that intersect with CAD boundary layer (within 0.01 feet)
-	Location found: IRVINE
-	Location type: City
-	County: County of Orange
-	Full Location Identified: City Of Irvine, County of Orange, State of California
-	Location Check: Pass
-
+	Checking City Boundaries from Server Features Failed: Script outside OCPW Domain.
 Tract Map Server Location Checks
-	Checking Tract Maps Server Features: OCSurvey.DBO.TRACT_MAPS
-	Searching Tract Map Geometry for information
-	Server tract lot exists in server: TR18141
-	Map book number: 981
-	Map book pages: 27 through 38 inclusive
-	Engineering Company: HUNSAKER AND ASSOCIATES IRVINE INC
-	Surveying Company Name: ROBERT L WHEELER IV
-	Surveying Company Number: LS 8639
-	Information Match Found, Book No. 981, pages 27 through 38 inclusive: Passed
-
+	Checking Tract Maps Server Features Failed: Script outside OCPW Domain.
 Number of parcels in boundary area: 1
 
 Traverse Course Report
@@ -232,13 +207,13 @@ Boundary Multiline Geometry Correction Check
 	Geometry Corrections Completed: Pass
 
 
-Script completed on: 07/06/2020 11:45 AM
+Script completed on: 07/31/2020 04:52 AM
 
 
 
 ------------------- PART 2: AMC BOUNDARY FEATURE PROCESSING --------------------
 
-Script Started on: 07/06/2020 11:45 AM
+Script Started on: 07/31/2020 04:52 AM
 
 Processing Boundary Features for TR18141
 	Added 32 new fields to boundary feature class
@@ -296,32 +271,32 @@ Annotation Labels (Ground)
 	COID 21 (Curve): D=25°08'41"  R=96.00  L=42.13
 	COID 22 (Line): S 25°31'44" E  191.90
 
-Script Completed on 07/06/2020 11:46 AM
+Script Completed on 07/31/2020 04:53 AM
 
 
 
 ------------------- PART 3: AMC LEGAL DESCRIPTION PROCESSING -------------------
 
-Script Started on: 07/06/2020 11:46 AM
+Script Started on: 07/31/2020 04:53 AM
 
 
 
 LEGAL DESCRIPTION (GRID)
 
-	That portion of Lot 1 of Tract No. 18141, in the City of Irvine, County of Orange, State of California, as per map filed in Book 981, pages 27 through 38 inclusive of Miscellaneous Maps in the Office of the County Recorder of said County, more particularly described as follows:
-	COMMENCING at Orange County Horizontal Control Station "1396" having a State Plane Coordinate Value of Northing 6117267.2 and Easting 2203305.97; Thence South 38°22'48" East, 7668.52 feet to Station "0980"; Thence South 30°25'47" West, 861.53 feet to the TRUE POINT OF BEGINNING having a State Plane Coordinate Value of Northing 6121592.61 and Easting 2196552.27, to the beginning of a non-tangent curve, concave westerly, and having a radius of 196.06 feet, a radial bearing to said beginning of curve bears North 02°07'27" East.
+	That portion of Lot 1 of Tract No. 18141, in the {}, County of {}, State of California, as per map filed in Book <Book No.>, pages <Pages> of Miscellaneous Maps in the Office of the County Recorder of said County, more particularly described as follows:
+	COMMENCING at Orange County Horizontal Control Station "GPS NO. 1396" having a State Plane Coordinate Value of Northing 6117134.83 and Easting 2203331.87; Thence South 39°11'23" East, 7820.59 feet to Station "GPS NO. 0980"; Thence South 33°58'47" West, 866.36 feet to the TRUE POINT OF BEGINNING having a State Plane Coordinate Value of Northing 6121592.61 and Easting 2196552.27, to the beginning of a non-tangent curve, concave westerly, and having a radius of 196.06 feet, a radial bearing to said beginning of curve bears North 02°07'27" East.
 	 Thence southerly along said curve 231.70 feet through a central angle of 67°42'34" to the beginning of a non-tangent curve, concave northwesterly, and having a radius of 1001.01 feet, a radial line to said beginning of curve bears North 47°18'32" East; Thence southwesterly along said curve 206.07 feet through a central angle of 11°47'42"; to the beginning of a non-tangent curve, concave southeasterly, and having a radius of 2498.96 feet, a radial line to said beginning of curve bears North 48°10'15" East; Thence southwesterly along said curve 484.67 feet through a central angle of 11°06'44"; to the beginning of a non-tangent curve, concave northwesterly, and having a radius of 246.00 feet, a radial line to said beginning of curve bears North 60°16'19" East; Thence southwesterly along said curve 177.00 feet through a central angle of 41°13'36"; Thence South 83°35'47" West, 85.59 feet; Thence North 69°56'11" West, 29.01 feet; to the beginning of a non-tangent curve, concave northeasterly, and having a radius of 1137.49 feet, a radial line to said beginning of curve bears South 48°44'04" East; Thence northwesterly along said curve 991.06 feet through a central angle of 49°55'11"; Thence North 20°01'01" West, 409.32 feet; to the beginning of a non-tangent curve, concave northwesterly, and having a radius of 983.50 feet, a radial line to said beginning of curve bears South 50°04'30" West; Thence northeasterly along said curve 442.66 feet through a central angle of 25°47'17"; Thence North 35°59'59" East, 133.45 feet; to the beginning of a non-tangent curve, concave southeasterly, and having a radius of 5.00 feet, a radial line to said beginning of curve bears South 55°21'13" West; Thence northeasterly along said curve 3.92 feet through a central angle of 44°59'31"; Thence North 80°59'57" East, 14.66 feet; to the beginning of a non-tangent curve, concave southerly, and having a radius of 4.99 feet, a radial line to said beginning of curve bears North 79°39'11" West; Thence easterly along said curve 3.92 feet through a central angle of 45°01'07"; Thence South 53°59'59" East, 200.58 feet; to the beginning of a non-tangent curve, concave northerly, and having a radius of 735.58 feet, a radial line to said beginning of curve bears North 67°27'06" West; Thence easterly along said curve 384.83 feet through a central angle of 29°58'32"; Thence South 84°00'00" East, 133.54 feet; to the beginning of a non-tangent curve, concave northerly, and having a radius of 808.49 feet, a radial line to said beginning of curve bears South 83°41'35" West; Thence easterly along said curve 384.06 feet through a central angle of 27°13'02"; Thence South 22°16'49" East, 150.39 feet; to the beginning of a non-tangent curve, concave westerly, and having a radius of 30.00 feet, a radial line to said beginning of curve bears North 03°45'44" East; Thence southerly along said curve 33.09 feet through a central angle of 63°11'51"; to the beginning of a non-tangent curve, concave easterly, and having a radius of 78.51 feet, a radial line to said beginning of curve bears North 05°07'14" East; Thence southerly along said curve 125.48 feet through a central angle of 91°34'06"; to the beginning of a non-tangent curve, concave southwesterly, and having a radius of 95.99 feet, a radial line to said beginning of curve bears North 39°13'45" West; Thence southeasterly along said curve 42.12 feet through a central angle of 25°08'41"; Thence South 25°31'44" East, 191.90 feet; to the TRUE POINT OF BEGINNING
 
 
 
 LEGAL DESCRIPTION (GROUND)
 
-	That portion of Lot 1 of Tract No. 18141, in the City of Irvine, County of Orange, State of California, as per map filed in Book 981, pages 27 through 38 inclusive of Miscellaneous Maps in the Office of the County Recorder of said County, more particularly described as follows:
-	COMMENCING at Orange County Horizontal Control Station "1396" having a State Plane Coordinate Value of Northing 6117464.79 and Easting 2203377.13; Thence South 38°22'48" East, 7668.77 feet to Station "0980"; Thence South 30°25'47" West, 861.55 feet to the TRUE POINT OF BEGINNING having a State Plane Coordinate Value of Northing 6121790.34 and Easting 2196623.23, to the beginning of a non-tangent curve, concave westerly, and having a radius of 196.07 feet, a radial bearing to said beginning of curve bears North 02°07'27" East.
+	That portion of Lot 1 of Tract No. 18141, in the {}, County of {}, State of California, as per map filed in Book <Book No.>, pages <Pages> of Miscellaneous Maps in the Office of the County Recorder of said County, more particularly described as follows:
+	COMMENCING at Orange County Horizontal Control Station "GPS NO. 1396" having a State Plane Coordinate Value of Northing 6117332.42 and Easting 2203403.04; Thence South 39°11'23" East, 7820.84 feet to Station "GPS NO. 0980"; Thence South 33°58'47" West, 866.39 feet to the TRUE POINT OF BEGINNING having a State Plane Coordinate Value of Northing 6121790.34 and Easting 2196623.23, to the beginning of a non-tangent curve, concave westerly, and having a radius of 196.07 feet, a radial bearing to said beginning of curve bears North 02°07'27" East.
 	 Thence southerly along said curve 231.70 feet through a central angle of 67°42'34" to the beginning of a non-tangent curve, concave northwesterly, and having a radius of 1001.04 feet, a radial line to said beginning of curve bears North 47°18'32" East; Thence southwesterly along said curve 206.07 feet through a central angle of 11°47'42"; to the beginning of a non-tangent curve, concave southeasterly, and having a radius of 2499.04 feet, a radial line to said beginning of curve bears North 48°10'15" East; Thence southwesterly along said curve 484.68 feet through a central angle of 11°06'44"; to the beginning of a non-tangent curve, concave northwesterly, and having a radius of 246.00 feet, a radial line to said beginning of curve bears North 60°16'19" East; Thence southwesterly along said curve 177.01 feet through a central angle of 41°13'36"; Thence South 83°35'47" West 85.59 feet; Thence North 69°56'11" West 29.02 feet; to the beginning of a non-tangent curve, concave northeasterly, and having a radius of 1137.53 feet, a radial line to said beginning of curve bears South 48°44'04" East; Thence northwesterly along said curve 991.09 feet through a central angle of 49°55'11"; Thence North 20°01'01" West 409.33 feet; to the beginning of a non-tangent curve, concave northwesterly, and having a radius of 983.53 feet, a radial line to said beginning of curve bears South 50°04'30" West; Thence northeasterly along said curve 442.67 feet through a central angle of 25°47'17"; Thence North 35°59'59" East 133.45 feet; to the beginning of a non-tangent curve, concave southeasterly, and having a radius of 5.00 feet, a radial line to said beginning of curve bears South 55°21'13" West; Thence northeasterly along said curve 3.92 feet through a central angle of 44°59'31"; Thence North 80°59'57" East 14.66 feet; to the beginning of a non-tangent curve, concave southerly, and having a radius of 4.99 feet, a radial line to said beginning of curve bears North 79°39'11" West; Thence easterly along said curve 3.92 feet through a central angle of 45°01'07"; Thence South 53°59'59" East 200.59 feet; to the beginning of a non-tangent curve, concave northerly, and having a radius of 735.60 feet, a radial line to said beginning of curve bears North 67°27'06" West; Thence easterly along said curve 384.85 feet through a central angle of 29°58'32"; Thence South 84°00'00" East 133.55 feet; to the beginning of a non-tangent curve, concave northerly, and having a radius of 808.52 feet, a radial line to said beginning of curve bears South 83°41'35" West; Thence easterly along said curve 384.07 feet through a central angle of 27°13'02"; Thence South 22°16'49" East 150.39 feet; to the beginning of a non-tangent curve, concave westerly, and having a radius of 30.00 feet, a radial line to said beginning of curve bears North 03°45'44" East; Thence southerly along said curve 33.09 feet through a central angle of 63°11'51"; to the beginning of a non-tangent curve, concave easterly, and having a radius of 78.51 feet, a radial line to said beginning of curve bears North 05°07'14" East; Thence southerly along said curve 125.48 feet through a central angle of 91°34'06"; to the beginning of a non-tangent curve, concave southwesterly, and having a radius of 96.00 feet, a radial line to said beginning of curve bears North 39°13'45" West; Thence southeasterly along said curve 42.13 feet through a central angle of 25°08'41"; Thence South 25°31'44" East 191.90 feet; to the TRUE POINT OF BEGINNING
 
 
-Script Completed on 07/06/2020 11:46 AM
+Script Completed on 07/31/2020 04:53 AM
 
 
 
@@ -331,12 +306,12 @@ Boundary Tabulation: Pass
 
 ----------------------- PART 4: AMC PROCESS FINALIZATION -----------------------
 
-Script Started on: 07/06/2020 11:46 AM
+Script Started on: 07/31/2020 04:53 AM
 
 JSON Data String Output Written to Disk: jsonResponse.json
 
 
-Script Completed on 07/06/2020 11:46 AM
+Script Completed on 07/31/2020 04:53 AM
 
 
 
