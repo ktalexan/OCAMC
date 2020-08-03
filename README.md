@@ -1,70 +1,70 @@
-# OCAMC <a name="title"></a>
-### OC Automated Map Checking Python Development <a name="subtitle"></a>
+# OC Automated Map Checking (OCAMC)
+### Orange County OC Survey Python Programming and Development
 
 # 
 
 <br>
 
-### Contents <a name="contents"></a>
+### Contents
 
->- **[AMC Class Documentation](#documentation)**
->   - [Class Contents](#classcontents)
->- **[Classes and Execution Code in Folders](#classes)**
->   - [Python Classes and Functions](#pyclasses)
->   - [Execution Code](#pyexecution)
->- **[Folders and Python Classes](#folders)**
+>- **[AMC Class Documentation](#amc-class-documentation)**
+>   - [Class Contents](#class-contents)
+>- **[Classes and Execution Code in Folders](#classes-and-execution-code-in-folders)**
+>   - [Python Classes and Functions](#python-classes-and-functions)
+>   - [Execution Code](#execution-code)
+>- **[Folders and Python Classes](#folders-and-python-classes)**
 
-
-<br><br>
-
-## AMC Class Documentation <a name="documentation"></a>
-
-### Class Contents <a name="classcontents"></a>
-
-**[PART I: AMC CLASS AND INSTANTIATION](#p1)**
-
-0. [AMC Class](#class)
-1. [Class Instantiation (*init*)](#def01)
-
-**[PART II: MAIN CLASS FUNCTIONS](#p2)**
-
-2. [Base Checks (*baseChecks*)](#def02)
-3. [Boundary Processing (*boundaryProcessing*)](#def03)
-4. [Create Legal Description (*createLaegalDescription*)](#def04)
-5. [Finalize Report (*finalizeReport*)](#def05)
-
-**[PART III: SECONDARY CLASS FUNCTIONS](#p3)**
-
-6. [Append Report (*appendReport*)](#def06)
-7. [ArcPy Message (*getAgpMsg*)](#def07)
-8. [Check Project Geodatabase (*checkGDB*)](#def08)
-9. [Check Layers in CAD (*checkLayers*)](#def09)
-10. [Create Feature Classes (*createFeatureClasses*)](#def10)
-11. [Check GPS Control Points (*checkGPS*)](#def11)
-12. [Check Geodetic Control Geometries (*checkGeodeticControls*)](#def12)
-13. [Check for POB (*checkPOB*)](#def13)
-14. [Check for Expanded Boundary Layers (*checkEBL*)](#def14)
-15. [Check for Closure (*checkClosureCentroid*)](#def15)
-16. [Check for Location (*checkLocation*)](#def16)
-17. [Check for Tract Information (*checkServerTractMaps*)](#def17)
-18. [Check for Parcel Information (*checkServerParcelMaps*)](#def18)
-19. [Check for Records of Survey Information (*checkServerRecordsOfSurvey*)](#def19)
-20. [Truncating Values (*truncate*)](#def20)
-21. [Boundary Course Traverse Path (*traverseCourse*)](#def21)
-22. [Obtain Next Course Segment (*nextCourseSegment*)](#def22)
-23. [Correct Boundary Geometry (*correctBoundaryGeometry*)](#def23)
-24. [Decimal Degrees to Degrees-Minutes-Seconds (*dd2dms*)](#def24)
-25. [Bearing to Word (*bearingLabel*)](#def25)
-26. [Map Document Description (*describeMapDocument*)](#def26)
-27. [Describe Horizontal Controls (*describeHorizontalControls*)](#def27)
-28. [Format Labels for Bearing and Distance (*labelBearingDistance*)](#def28)
-29. [Generate CSV Boundary Table (*boundaryToTable*)](#def29)
 
 <br><br>
 
-### PART I: AMC CLASS AND INSTANTIATION <a name="p1"></a>
+## AMC Class Documentation
 
-#### AMC CLASS <a name="class"></a>
+### Class Contents
+
+**[PART I: AMC CLASS AND INSTANTIATION](#part-i-amc-class-and-instantiation)**
+
+0. [AMC Class](#amc-class)
+1. [Class Instantiation (*init*)](#class-instantiation)
+
+**[PART II: MAIN CLASS FUNCTIONS](#part-ii-main-class-functions)**
+
+2. [Base Checks (*baseChecks*)](#base-checks)
+3. [Boundary Processing (*boundaryProcessing*)](#boundary-processing)
+4. [Create Legal Description (*createLaegalDescription*)](#create-legal-description)
+5. [Finalize Report (*finalizeReport*)](#finalize-report)
+
+**[PART III: SECONDARY CLASS FUNCTIONS](#part-iii-secondary-class-functions)**
+
+6. [Append Report (*appendReport*)](#append-report)
+7. [ArcPy Message (*getAgpMsg*)](#arcpy-message)
+8. [Check Project Geodatabase (*checkGDB*)](#check-project-geodatabase)
+9. [Check Layers in CAD (*checkLayers*)](#check-layers-in-cad)
+10. [Create Feature Classes (*createFeatureClasses*)](#create-feature-layers)
+11. [Check GPS Control Points (*checkGPS*)](#check-gps-control-points)
+12. [Check Geodetic Control Geometries (*checkGeodeticControls*)](#check-geodetic-control-geometries)
+13. [Check for POB (*checkPOB*)](#check-for-pob)
+14. [Check for Expanded Boundary Layers (*checkEBL*)](#check-for-expanded-boundary-layers)
+15. [Check for Closure (*checkClosureCentroid*)](#check-for-closure)
+16. [Check for Location (*checkLocation*)](#check-for-location)
+17. [Check for Tract Information (*checkServerTractMaps*)](#check-for-tract-information)
+18. [Check for Parcel Information (*checkServerParcelMaps*)](#check-for-parcel-information)
+19. [Check for Records of Survey Information (*checkServerRecordsOfSurvey*)](#check-for-records-of-survey-information)
+20. [Truncating Values (*truncate*)](#truncating-values)
+21. [Boundary Course Traverse Path (*traverseCourse*)](#boundary-course-traverse-path)
+22. [Obtain Next Course Segment (*nextCourseSegment*)](#obtain-next-course-segment)
+23. [Correct Boundary Geometry (*correctBoundaryGeometry*)](#correct-boundary-geometry)
+24. [Decimal Degrees to Degrees-Minutes-Seconds (*dd2dms*)](#decimal-degrees-to-degrees-minutes-seconds)
+25. [Bearing to Word (*bearingLabel*)](#bearing-to-word)
+26. [Map Document Description (*describeMapDocument*)](#map-document-description)
+27. [Describe Horizontal Controls (*describeHorizontalControls*)](#describe-horizontal-controls)
+28. [Format Labels for Bearing and Distance (*labelBearingDistance*)](#format-labels-for-bearing-and-distance)
+29. [Generate CSV Boundary Table (*boundaryToTable*)](#generate-csv-boundary-table)
+
+<br><br>
+
+### PART I: AMC CLASS AND INSTANTIATION
+
+#### AMC CLASS
 
 >```python
 >amc(object)
@@ -75,7 +75,7 @@
 
 <br>
 
-#### Class Instantiation <a name="def01"></a>
+#### Class Instantiation
 
 >```python
 >__init__(self, cadpath, prjpath, outpath, cadname, scale, scalefactor, tpob=None, direction=None, tolerance=2)
@@ -98,9 +98,9 @@
 
 <br><br>
 
-### PART II: MAIN CLASS FUNCTIONS <a name="p2"></a>
+### PART II: MAIN CLASS FUNCTIONS
 
-#### Base Checks <a name="def02"></a>
+#### Base Checks
 
 >```python
 >baseChecks(self)
@@ -121,7 +121,7 @@
 
 <br>
 
-#### Boundary Processing <a name="def03"></a>
+#### Boundary Processing
 
 >```python
 >boundaryProcessing(self)
@@ -130,7 +130,7 @@
 
 <br>
 
-#### Create Legal Description <a name="def04"></a>
+#### Create Legal Description
 
 >```python
 >createLegalDescription(self)
@@ -139,7 +139,7 @@
 
 <br>
 
-#### Finalize Report <a name="def05"></a>
+#### Finalize Report
 
 >```python
 >finalizeReport(self)
@@ -148,9 +148,9 @@
     
 <br><br>
 
-### PART III: SECONDARY CLASS FUNCTIONS <a name="p3"></a>
+### PART III: SECONDARY CLASS FUNCTIONS
 
-#### Append Report <a name="def06"></a>
+#### Append Report
 
 >```python
 >appendReport(self, string)
@@ -161,7 +161,7 @@
 
 <br>
 
-#### Arcpy Message <a name="def07"></a>
+#### Arcpy Message
 
 >```python
 >getAgpMsg(self, ntabs=1)
@@ -171,7 +171,7 @@
 
 <br>
 
-#### Check Project Geodatabase <a name="def08"></a>
+#### Check Project Geodatabase
 
 >```python
 >checkGDB(self)
@@ -180,7 +180,7 @@
 
 <br>
 
-#### Check Layers in CAD <a name="def09"></a>
+#### Check Layers in CAD
 
 >```python
 >checkLayers(self)
@@ -210,7 +210,7 @@
 
 <br>
 
-#### Create Feature Classes <a name="def10"></a>
+#### Create Feature Classes
 
 >```python
 >createFeatureClasses(self)
@@ -219,7 +219,7 @@
 
 <br>
 
-#### Check GPS Control Points <a name="def11"></a>
+#### Check GPS Control Points
 
 >```python
 >checkGPS(self)
@@ -228,7 +228,7 @@
 
 <br>
 
-#### Check Geodetic Control Point Geometries <a name="def12"></a>
+#### Check Geodetic Control Point Geometries
 
 >```python
 >checkGeodeticControls(self)
@@ -237,7 +237,7 @@
 
 <br>
 
-#### Check for POB <a name="def13"></a>
+#### Check for POB
 
 >```python
 >checkPOB(self)
@@ -246,7 +246,7 @@
 
 <br>
 
-#### Check for Expanded Boundary Layers <a name="def14"></a>
+#### Check for Expanded Boundary Layers
 
 >```python 
 >checkEBL(self)
@@ -255,7 +255,7 @@
 
 <br>
 
-#### Check for Closure <a name="def15"></a>
+#### Check for Closure
 
 >```python
 >checkClosureCentroid(self)
@@ -264,7 +264,7 @@
 
 <br>
 
-#### Check for Location <a name="def16"></a>
+#### Check for Location
 
 >```python
 >checkLocation(self)
@@ -273,7 +273,7 @@
 
 <br>
 
-#### Check for Tract Information <a name="def17"></a>
+#### Check for Tract Information
 
 >```python
 >checkServerTractMaps(self)
@@ -282,7 +282,7 @@
 
 <br>
 
-#### Check for Parcel Information <a name="def18"></a>
+#### Check for Parcel Information
 
 >```python
 >checkServerParcelMaps(self)
@@ -291,7 +291,7 @@
 
 <br>
 
-#### Check for Records of Survey Information <a name="def19"></a>
+#### Check for Records of Survey Information
 
 >```python
 >checkServerRecordsOfSurvey(self)
@@ -300,7 +300,7 @@
 
 <br>
 
-#### Truncating Values <a name="def20"></a>
+#### Truncating Values
 
 >```python
 >truncate(self, v, n)
@@ -309,7 +309,7 @@
 
 <br>
 
-#### Boundary Course Traverse Path <a name="def21"></a>
+#### Boundary Course Traverse Path
 
 >```python
 >traverseCourse(self)
@@ -318,7 +318,7 @@
 
 <br>
 
-#### Obtain Next Course Segment <a name="def22"></a>
+#### Obtain Next Course Segment
 
 >```python
 >nextCourseSegment(self, course, segments)
@@ -327,7 +327,7 @@
 
 <br>
 
-#### Correct Boundary Geometry <a name="def23"></a>
+#### Correct Boundary Geometry
 
 >```python
 >correctBoundaryGeometry(self)
@@ -336,7 +336,7 @@
 
 <br>
 
-#### Decimal Degrees to Degrees-Minutes-Seconds <a name="def24"></a>
+#### Decimal Degrees to Degrees-Minutes-Seconds
 
 >```python
 >dd2dms(self, dd)
@@ -345,7 +345,7 @@
 
 <br>
 
-#### Bearing to Word <a name="def25"></a>
+#### Bearing to Word
 
 >```python
 >bearingLabel(self, bearing)
@@ -354,7 +354,7 @@
 
 <br>
 
-#### Map Document Description <a name="def26"></a>
+#### Map Document Description
 
 >```python
 >describeMapDocument(self)
@@ -363,7 +363,7 @@
 
 <br>
 
-#### Describe Horizontal Controls <a name="def27"></a>
+#### Describe Horizontal Controls
 
 >```python
 >describeHorizontal Controls(self)
@@ -372,7 +372,7 @@
 
 <br>
 
-#### Format Labels for Bearing and Distance <a name="def28"></a>
+#### Format Labels for Bearing and Distance
 
 >```python
 >labelBearingDistance(self, bearing, distance)
@@ -381,7 +381,7 @@
 
 <br>
 
-#### Generate CSV Boundary Table <a name="def29"></a>
+#### Generate CSV Boundary Table
 
 >```python
 >boundaryToTable(self)
@@ -390,14 +390,14 @@
 
 <br><br>
 
-## Classes and Execution Code in Folders <a name="classes"></a>
+## Classes and Execution Code in Folders
 
-### Python Classes and Functions <a name="pyclasses"></a>
+### Python Classes and Functions
 
 * [AMC Class](amc/amc.py)
 * [ALD Code](amc/ald.py)
 
-#### Execution Code <a name="pyexecution"></a>
+#### Execution Code
 
 * [AMC and ALD Combined Execution on native Python Scirpt](amc/pyamcld.py)
 * [CAD to AMC ArcGIS Pro Geoprocessing Tool Script](amc/gpamc.py)
@@ -406,7 +406,7 @@
 
 <br><br>
 
-## Folders and Python Classes <a name="folders"></a>
+## Folders and Python Classes
 
 - [x] **[AMC python class, version 1.4](amc)**
   - [x] [Test Python Code Folder](amc/Test): Contains test python code for the AMC (v1.4) class (single boundary).
