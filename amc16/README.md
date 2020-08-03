@@ -9,13 +9,13 @@
 ## Code Steps
 
 
-**A. Initialize class object**
+**A. Initialize class object (*init*)**
   1. Define python class and system variables
   2. Initiate global class variables from definitions
   3. Define output paths for project and geodatabase (and generate directories if needed or delete old ones).
   4. Create new execution report.
 
-**B. Perform basic checks**
+**B. Perform basic checks (*baseChecks*)**
   1. Define new JSON dictionaries to hold information:
      1. Part 1: execution information (*jsonExecution*)
      2. Part 2: record checks (*jsonChecks*)
@@ -47,10 +47,12 @@
   17. Get the course data (traverse order) using function *traverseCourse*
   18. Check the boundary geometry and correct if needeed using function *correctBoundaryGeometry*
 
-**C. Perform boundary processing**
+**C. Perform boundary processing (*boundaryProcessing*)**
   1. Define *boundaryFields* list
   2. Add fields to the boudnary feature class table in the geodatabase.
   3. check for boundary closure and populate types and coordinates.
+     1. Define fields for JSON data string structure (*jsonFields*)
+     2. Loop through rows in PIQ boundary feature class and populate fields
 
 
 
