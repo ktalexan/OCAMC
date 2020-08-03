@@ -4,5 +4,10 @@
     <TargetProject>deb765ed-74b4-408b-9ba9-88d81d192e71</TargetProject>
     <FriendlyName>OCAMC</FriendlyName>
   </ProjectTarget>
+  <Reports>
+    <Report>
+      <Filename>C:\Users\ktale\AppData\Local\Temp\OCAMC_20200803.vsp</Filename>
+    </Report>
+  </Reports>
   <UseVTune>false</UseVTune>
 </ProfilingTarget>

@@ -874,6 +874,7 @@
     <Content Include="amc16\README.md">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="amc16\Test\Input\TR18184_PHASE2.dwg" />
     <Content Include="DevNotes.md" />
     <Content Include="README.md" />
     <Content Include="samples\Boundary CAD Standards_07172020.xlsx" />
