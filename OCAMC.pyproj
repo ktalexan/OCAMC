@@ -370,6 +370,9 @@
     <Content Include="amc13\gpCADtoAMC\TR18141_REVISION2_MASTER.dwg" />
     <Content Include="amc13\gpCADtoAMC\TR18141_REVISION2_MASTER.dwg.xml" />
     <Content Include="amc13\LDTemplate.docx" />
+    <Content Include="amc13\README.md">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="amc13\SealKH.png" />
     <Content Include="amc13\SealKH_orig.png" />
     <Content Include="amc13\Seal_Kevin.png" />
@@ -377,6 +380,9 @@
     <Content Include="amc13\SPOCDSQL1205.sde" />
     <Content Include="amc14\Automated Map Checking.tbx" />
     <Content Include="amc14\LDTemplate.docx" />
+    <Content Include="amc14\README.md">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="amc14\SealKH.png" />
     <Content Include="amc14\Test\input\TR18141_REVISION2_MASTER.dwg" />
     <Content Include="amc14\Test\output\Default.gdb\a00000001.gdbindexes" />
