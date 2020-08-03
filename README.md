@@ -1,9 +1,12 @@
-<h1 style="text-align:center; color:brown; background-color: Linen">OC Automated Map Checking</h1>
-<p style="font-weight:bold; text-align:center; color:brown">OC Automated Map Checking Python Development</p>
+# OCAMC <a name="title"></a>
+### OC Automated Map Checking Python Development <a name="subtitle"></a>
+
+# 
 
 <br>
 
->### Contents {#contents}
+### Contents <a name="contents"></a>
+
 >- **[AMC Class Documentation](#documentation)**
 >   - [Class Contents](#classcontents)
 >- **[Classes and Execution Code in Folders](#classes)**
@@ -14,9 +17,9 @@
 
 <br><br>
 
-## AMC Class Documentation {#documentation, style="color: brown;"}
+## AMC Class Documentation <a name="documentation"></a>
 
-### Class Contents {#classcontents, style="color: darkgreen"}
+### Class Contents <a name="classcontents"></a>
 
 **[PART I: AMC CLASS AND INSTANTIATION](#p1)**
 
@@ -59,9 +62,9 @@
 
 <br><br>
 
-### PART I: AMC CLASS AND INSTANTIATION {#p1, style="color: darkgreen"}
+### PART I: AMC CLASS AND INSTANTIATION <a name="p1"></a>
 
-#### AMC CLASS {#class, style="color: purple"}
+#### AMC CLASS <a name="class"></a>
 
 >```python
 >amc(object)
@@ -72,7 +75,7 @@
 
 <br>
 
-#### Class Instantiation {#def01, style="color: purple"}
+#### Class Instantiation <a name="def01"></a>
 
 >```python
 >__init__(self, cadpath, prjpath, outpath, cadname, scale, scalefactor, tpob=None, direction=None, tolerance=2)
@@ -95,9 +98,9 @@
 
 <br><br>
 
-### PART II: MAIN CLASS FUNCTIONS {#p2, style="color: darkgreen"}
+### PART II: MAIN CLASS FUNCTIONS <a name="p2"></a>
 
-#### Base Checks {#def02, style="color: purple"}
+#### Base Checks <a name="def02"></a>
 
 >```python
 >baseChecks(self)
@@ -118,7 +121,7 @@
 
 <br>
 
-#### Boundary Processing {#def03, style="color: purple"}
+#### Boundary Processing <a name="def03"></a>
 
 >```python
 >boundaryProcessing(self)
@@ -127,7 +130,7 @@
 
 <br>
 
-#### Create Legal Description {#def04, style="color: purple"}
+#### Create Legal Description <a name="def04"></a>
 
 >```python
 >createLegalDescription(self)
@@ -136,7 +139,7 @@
 
 <br>
 
-#### Finalize Report {#def05, style="color: purple"}
+#### Finalize Report <a name="def05"></a>
 
 >```python
 >finalizeReport(self)
@@ -145,9 +148,9 @@
     
 <br><br>
 
-### PART III: SECONDARY CLASS FUNCTIONS {#p3, style="color: darkgreen"}
+### PART III: SECONDARY CLASS FUNCTIONS <a name="p3"></a>
 
-#### Append Report {#def06, style="color: purple"}
+#### Append Report <a name="def06"></a>
 
 >```python
 >appendReport(self, string)
@@ -158,7 +161,7 @@
 
 <br>
 
-#### Arcpy Message {#def07, style="color: purple"}
+#### Arcpy Message <a name="def07"></a>
 
 >```python
 >getAgpMsg(self, ntabs=1)
@@ -168,7 +171,7 @@
 
 <br>
 
-#### Check Project Geodatabase {#def08, style="color: purple"}
+#### Check Project Geodatabase <a name="def08"></a>
 
 >```python
 >checkGDB(self)
@@ -177,7 +180,7 @@
 
 <br>
 
-#### Check Layers in CAD {#def09, style="color: purple"}
+#### Check Layers in CAD <a name="def09"></a>
 
 >```python
 >checkLayers(self)
@@ -207,7 +210,7 @@
 
 <br>
 
-#### Create Feature Classes {#def10, style="color: purple"}
+#### Create Feature Classes <a name="def10"></a>
 
 >```python
 >createFeatureClasses(self)
@@ -216,7 +219,7 @@
 
 <br>
 
-#### Check GPS Control Points {#def11, style="color: purple"}
+#### Check GPS Control Points <a name="def11"></a>
 
 >```python
 >checkGPS(self)
@@ -225,7 +228,7 @@
 
 <br>
 
-#### Check Geodetic Control Point Geometries {#def12, style="color: purple"}
+#### Check Geodetic Control Point Geometries <a name="def12"></a>
 
 >```python
 >checkGeodeticControls(self)
@@ -234,7 +237,7 @@
 
 <br>
 
-#### Check for POB {#def13, style="color: purple"}
+#### Check for POB <a name="def13"></a>
 
 >```python
 >checkPOB(self)
@@ -243,7 +246,7 @@
 
 <br>
 
-#### Check for Expanded Boundary Layers {#def14, style="color: purple"}
+#### Check for Expanded Boundary Layers <a name="def14"></a>
 
 >```python 
 >checkEBL(self)
@@ -252,7 +255,7 @@
 
 <br>
 
-#### Check for Closure {#def15, style="color: purple"}
+#### Check for Closure <a name="def15"></a>
 
 >```python
 >checkClosureCentroid(self)
@@ -261,7 +264,7 @@
 
 <br>
 
-#### Check for Location {#def16, style="color: purple"}
+#### Check for Location <a name="def16"></a>
 
 >```python
 >checkLocation(self)
@@ -270,7 +273,7 @@
 
 <br>
 
-#### Check for Tract Information {#def17, style="color: purple"}
+#### Check for Tract Information <a name="def17"></a>
 
 >```python
 >checkServerTractMaps(self)
@@ -279,7 +282,7 @@
 
 <br>
 
-#### Check for Parcel Information {#def18, style="color: purple"}
+#### Check for Parcel Information <a name="def18"></a>
 
 >```python
 >checkServerParcelMaps(self)
@@ -288,7 +291,7 @@
 
 <br>
 
-#### Check for Records of Survey Information {#def19, style="color: purple"}
+#### Check for Records of Survey Information <a name="def19"></a>
 
 >```python
 >checkServerRecordsOfSurvey(self)
@@ -297,7 +300,7 @@
 
 <br>
 
-#### Truncating Values {#def20, style="color: purple"}
+#### Truncating Values <a name="def20"></a>
 
 >```python
 >truncate(self, v, n)
@@ -306,7 +309,7 @@
 
 <br>
 
-#### Boundary Course Traverse Path {#def21, style="color: purple"}
+#### Boundary Course Traverse Path <a name="def21"></a>
 
 >```python
 >traverseCourse(self)
@@ -315,7 +318,7 @@
 
 <br>
 
-#### Obtain Next Course Segment {#def22, style="color: purple"}
+#### Obtain Next Course Segment <a name="def22"></a>
 
 >```python
 >nextCourseSegment(self, course, segments)
@@ -324,7 +327,7 @@
 
 <br>
 
-#### Correct Boundary Geometry {#def23, style="color: purple"}
+#### Correct Boundary Geometry <a name="def23"></a>
 
 >```python
 >correctBoundaryGeometry(self)
@@ -333,7 +336,7 @@
 
 <br>
 
-#### Decimal Degrees to Degrees-Minutes-Seconds {#def24, style="color: purple"}
+#### Decimal Degrees to Degrees-Minutes-Seconds <a name="def24"></a>
 
 >```python
 >dd2dms(self, dd)
@@ -342,7 +345,7 @@
 
 <br>
 
-#### Bearing to Word {#def25, style="color: purple"}
+#### Bearing to Word <a name="def25"></a>
 
 >```python
 >bearingLabel(self, bearing)
@@ -351,7 +354,7 @@
 
 <br>
 
-#### Map Document Description {#def26, style="color: purple"}
+#### Map Document Description <a name="def26"></a>
 
 >```python
 >describeMapDocument(self)
@@ -360,7 +363,7 @@
 
 <br>
 
-#### Describe Horizontal Controls {#def27, style="color: purple"}
+#### Describe Horizontal Controls <a name="def27"></a>
 
 >```python
 >describeHorizontal Controls(self)
@@ -369,7 +372,7 @@
 
 <br>
 
-#### Format Labels for Bearing and Distance {#def28, style="color: purple"}
+#### Format Labels for Bearing and Distance <a name="def28"></a>
 
 >```python
 >labelBearingDistance(self, bearing, distance)
@@ -378,7 +381,7 @@
 
 <br>
 
-#### Generate CSV Boundary Table {#def29, style="color: purple"}
+#### Generate CSV Boundary Table <a name="def29"></a>
 
 >```python
 >boundaryToTable(self)
@@ -387,14 +390,14 @@
 
 <br><br>
 
-## Classes and Execution Code in Folders {#classes, style="color: brown"}
+## Classes and Execution Code in Folders <a name="classes"></a>
 
-### Python Classes and Functions {#pyclasses, style="color: darkgreen"}
+### Python Classes and Functions <a name="pyclasses"></a>
 
 * [AMC Class](amc/amc.py)
 * [ALD Code](amc/ald.py)
 
-#### Execution Code {#pyexecution, style="color: purple"}
+#### Execution Code <a name="pyexecution"></a>
 
 * [AMC and ALD Combined Execution on native Python Scirpt](amc/pyamcld.py)
 * [CAD to AMC ArcGIS Pro Geoprocessing Tool Script](amc/gpamc.py)
@@ -403,7 +406,7 @@
 
 <br><br>
 
-## Folders and Python Classes {#folders, style="color: brown"}
+## Folders and Python Classes <a name="folders"></a>
 
 - [x] **[AMC python class, version 1.4](amc)**
   - [x] [Test Python Code Folder](amc/Test): Contains test python code for the AMC (v1.4) class (single boundary).

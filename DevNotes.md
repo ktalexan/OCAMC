@@ -1,8 +1,8 @@
-# OCAMC Code Development Notes {style="text-align:center; color:brown; background-color: Linen"}
+# OCAMC Code Development Notes
 
 <br>
 
->### Contents {#toc, style="color: purple"}
+>### Contents <a name="toc"></a>
 >* [AMC Versions](#title)
 >* [Version 1.5 Notes](#v15)
 >   * [Boundary Fields Table](#BoundaryFieldsTable)
@@ -10,7 +10,7 @@
 
 <br><br>
 
-## AMC Versions {#title, style="color: brown"}
+## AMC Versions <a name="title"></a>
 
 Name|Version|Date|Status|Notes
 ---|---|---|---|---
@@ -23,7 +23,7 @@ amc15|[1.5](#v15)|2020|Development|Adds additional parcel/map processing capabil
 
 <br>
 
-## Version 1.5 {#v15, style="color: darkgreen"}
+## Version 1.5 <a name="v15"></a>
 
 - [ ] In the conversion of the CAD drawing to geodatabase, the default name of the feature dataset to be created using the *arcpy.CADtoGeodatabase_conversion()* command has been changed from a variable (cadname in v 1.4) to a static ("CAD" in v 1.5) so that the geodatabase names will be standardized and not vary from input to input.
 
@@ -45,7 +45,7 @@ amc15|[1.5](#v15)|2020|Development|Adds additional parcel/map processing capabil
 - [ ] TODO: The unicode changes are formatted during the execution for *annweb* fields - need to leave them unformatted for the code to work correctly.
 
 
-* #### Boundary Fields Table {#BoundaryFieldsTable, style="color: purple"}
+* #### Boundary Fields Table <a name="BoundaryFieldsTable"></a>
 
     Field | Type | Length | Description | FC | JSON
     :--- | :--- | ---: | :--- | ---: | ---:
@@ -93,7 +93,7 @@ amc15|[1.5](#v15)|2020|Development|Adds additional parcel/map processing capabil
 
 <br>
 
-### Separate Parcels {#SeparateParcels, style="color: purple"}
+### Separate Parcels <a name="SeparateParcels"></a>
 
 - [ ] The code fails in the loop of line 1687 because the PIQ (parcel lines) are all mixed together for the two boundary parcels. They either need to be separated, or select the lines that belong to each parcel.
 
@@ -143,7 +143,7 @@ amc15|[1.5](#v15)|2020|Development|Adds additional parcel/map processing capabil
 
 <br>
 
-#### Update on ArcGIS 2.6 (7/31/2020) {#upd200731}
+#### Update on ArcGIS 2.6 (7/31/2020) <a name="upd200731"></a>
 
 - [x] The new ArcGIS Pro 2.6 arcpy (I believe) has changed the way the CAD drawing is imported to the geodatabase. Now, after import, the creation of a boundary parcel (for single and multiple parcels) fails to create unique parcels, as the parcel segments and parcel lines are both imported together in the V-LINE-PIQ multiline feature class.
 - [x] I noticed that it now creates an additional feature class called "ParcelSegment" in the "CAD" feature dataset imported to the geodatabase. This "ParcelSegment" multiline feature class does separate the different types in their attribute table. In the attribute "Layer", it does separate the "V-LINE-PIQ" (boundary edges) from "V-LINE-PCLS" (segments). Thus, we can use this process to create a new boundary polygon area, using arcpy:
