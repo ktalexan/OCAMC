@@ -53,6 +53,12 @@
     <Compile Include="amc15\amctest_separate.py" />
     <Compile Include="amc15\amctest_single.py" />
     <Compile Include="amc15\scratch15.py" />
+    <Compile Include="amc16\amc16.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="amc16\amctest_phase2.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="scratch.py" />
   </ItemGroup>
   <ItemGroup>
