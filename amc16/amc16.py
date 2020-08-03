@@ -129,7 +129,7 @@ class amc(object):
         self.appendReport("Script started on: {}\n".format(stime))
 
         # Define new JSON to hold code execution data:
-        self.jsonExecution = {}
+        self.jsonExecution = {} # JSON Part 1 - run info
         self.jsonExecution["Class"] = self.pyclass
         self.jsonExecution["Version"] = self.__version__
         self.jsonExecution["Author"] = self.__author__
@@ -138,4 +138,75 @@ class amc(object):
         self.jsonExecution["Domain"] = self.domain
         self.jsonExecution["CondaEnv"] = self.condaenv
         self.jsonExecution["PythonVer"] = self.sysver
+
+        # Define new JSON to hold record checks:
+        self.jsonChecks = {} # JSON Part 2 - checks
+        self.jsonChecks["LayerChecks"] = {}
+        self.jsonChecks["BoundaryChecks"] = {}
+        self.jsonChecks["BoundaryCorrections"] = {}
+        self.jsonChecks["BoundaryLines"] = {}
+        self.jsonChecks["BoundaryClosure"] = {}
+        self.jsonChecks["GeometryCorrections"] = {}
+        self.jsonChecks["GPSChecks"] = {}
+        self.jsonChecks["GeodeticControlPoints"] = {}
+        self.jsonChecks["TPOB"] = {}
+        self.jsonChecks["Location"] = {}
+        self.jsonChecks["MapGeometry"] = {}
+
+        # Define new JSON to hold control information
+        self.jsonControls = {} # JSON Part 3 - controls
+        self.jsonControls["Title"] = self.cadname
+        self.jsonControls["ScaleFactor"] = self.scalefactor
+        self.jsonControls["MapType"] = {}
+        self.jsonControls["MapID"] = {}
+        self.jsonControls["MapBookType"] = {}
+        self.jsonControls["Book"] = {}
+        self.jsonControls["Book"]["No"] = "<Book No.>"
+        self.jsonControls["Book"]["Pages"] = "<Pages>"
+        self.jsonControls["Registration"] = {}
+        self.jsonControls["Registration"]["EngCo"] = {}
+        self.jsonControls["Registration"]["EngSurveyorName"] = {}
+        self.jsonControls["Location"] = {}
+        self.jsonControls["Location"]["Type"] = {}
+        self.jsonControls["Location"]["Name"] = {}
+        self.jsonControls["Location"]["County"] = {}
+        self.jsonControls["Location"]["State"] = "California"
+        self.jsonControls["GPS"] = {}
+        self.jsonControls["Centroid"] = {}
+        self.jsonControls["Areas"] = {}
+        self.jsonControls["TPOB"] = {}
+
+        # Define new JSON to hold boundary parcel info
+        self.jsonBoundary = {} # JSON Part 4 - boundaries
+
+        # Define new JSON to hold legal description
+        self.jsonLegalDescription = {}
+
+        # Tract Map, Parcel Map or Record of Survey Map
+        if "TR" in self.cadname:
+            self.maptype = "Tract"
+            self.mapid = self.cadname.split("TR")[1]
+            self.mapbooktype = "Miscellaneous Maps"
+        elif "PM" in self.cadname:
+            self.maptype = "Parcel"
+            self.mapid = self.cadname.split("PM")[1]
+            self.mapbooktype = "Parcel Maps"
+        elif "RS" in self.cadname:
+            self.maptype = "Record of Survey"
+            self.mapid = self.cadname.split("RS")[1]
+            self.mapbooktype = "Records of Survey"
+        else:
+            self.maptype = None
+            self.mapid = None
+            self.mapbooktype = None
+
+        # Populate the JSON controls with the map information data for the project
+        self.jsonControls["MapType"] = self.maptype
+        self.jsonControls["MapID"] = self.mapid
+        self.jsonControls["MapBookType"] = self.mapbooktype
+
+        # Append the report with the map information data
+        self.appendReport("Identifying Map Characteristics from CAD drawing: \n\tMap Type: {}\n\tMap ID: {}\n\tMap Book Type: {}\n".format(self.jsonControls["MapType"], self.jsonControls["MapID"], self.jsonControls["MapBookType"]))
+
+
 
