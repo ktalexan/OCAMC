@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>deb765ed-74b4-408b-9ba9-88d81d192e71</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>amc14\amctest.py</StartupFile>
+    <StartupFile>amc15\amctest_single.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
