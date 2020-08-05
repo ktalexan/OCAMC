@@ -139,3 +139,41 @@ class amc(object):
         self.jsonExecution["CondaEnv"] = self.condaenv
         self.jsonExecution["PythonVer"] = self.sysver
 
+        # Define new json to hold record checks:
+        self.jsonChecks = {} # JSON Part 1 - checks
+        self.jsonChecks["LayerChecks"] = {}
+        self.jsonChecks["BoundaryChecks"] = {}
+        self.jsonChecks["BoundaryCorrections"] = {}
+        self.jsonChecks["BoundaryLines"] = {}
+        self.jsonChecks["BoundaryClosure"] = {}
+        self.jsonChecks["GeometryCorrections"] = {}
+        self.jsonChecks["GPSChecks"] = {}
+        self.jsonChecks["GeodeticControlPoints"] = {}
+        self.jsonChecks["TPOB"] = {}
+        self.jsonChecks["Location"] = {}
+        self.jsonChecks["MapGeometry"] = {}
+
+        # Define new JSON to hold control information
+        self.jsonControls = {} # JSON Part 2 - controls
+        self.jsonControls["Title"] = self.cadname
+        self.jsonControls["ScaleFactor"] = self.scalefactor
+        self.jsonControls["MapType"] = {}
+        self.jsonControls["MapID"] = {}
+        self.jsonControls["MapBookType"] = {}
+        self.jsonControls["Book"] = {}
+        self.jsonControls["Book"]["No"] = "<Book No.>"
+        self.jsonControls["Book"]["Pages"] = "<Pages>"
+        self.jsonControls["Registration"] = {}
+        self.jsonControls["Registration"]["EngCo"] = {}
+        self.jsonControls["Registration"]["EngSurveyorName"] = {}
+        self.jsonControls["Registration"]["EngSurveyorNumber"] = {}
+        self.jsonControls["Location"] = {}
+        self.jsonControls["Location"]["Type"] = {}
+        self.jsonControls["Location"]["Name"] = {}
+        self.jsonControls["Location"]["County"] = {}
+        self.jsonControls["Location"]["State"] = "California"
+        self.jsonControls["GPS"] = {}
+        self.jsonControls["Centroid"] = {}
+        self.jsonControls["Areas"] = {}
+        self.jsonControls["TPOB"] = {}
+
