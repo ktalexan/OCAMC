@@ -47,7 +47,7 @@ class amc(object):
 
     #========================= PART I: CLASS INITIALIZATION =========================#
 
-    #_____ SECTION A: Initialize class object (init) _____
+    #--- SECTION A: Initialize class object (init) ---#
 
     def __init__(self, cadpath, prjpath, outpath, cadname, scale, scalefactor, tpob=None, direction=None, tolerance=2):
         """
@@ -143,7 +143,6 @@ class amc(object):
         #--- B.1. Define new JSON assembly dictionaries to hold information ---#
 
         #--- B.1.i. JSON Part 1: execution information (jsonExecution) ---#
-        # Define new JSON to hold code execution data:
         self.jsonExecution = {}
         self.jsonExecution["Class"] = self.pyclass
         self.jsonExecution["Version"] = self.__version__
@@ -155,7 +154,6 @@ class amc(object):
         self.jsonExecution["PythonVer"] = self.sysver
 
         #--- B.1.ii. JSON Part 2: record checks (jsonChecks) ---#
-        # Define new json to hold record checks:
         self.jsonChecks = {}
         self.jsonChecks["LayerChecks"] = {}
         self.jsonChecks["BoundaryChecks"] = {}
@@ -169,8 +167,7 @@ class amc(object):
         self.jsonChecks["Location"] = {}
         self.jsonChecks["MapGeometry"] = {}
 
-        #--- B.1.iii. JSON Part 3: control types (jsonControls) ---#
-        # Define new JSON to hold control information
+        #--- B.1.iii. JSON Part 3: control types and information (jsonControls) ---#
         self.jsonControls = {}
         self.jsonControls["Title"] = self.cadname
         self.jsonControls["ScaleFactor"] = self.scalefactor
@@ -194,18 +191,15 @@ class amc(object):
         self.jsonControls["Areas"] = {}
         self.jsonControls["TPOB"] = {}
 
-        #--- B.1.iv. JSON Part 4: boundary info (jsonBoundary) ---#
-        # Define new JSON to hold boundary parcel info
+        #--- B.1.iv. JSON Part 4: boundary parcel info (jsonBoundary) ---#
         self.jsonBoundary = {}
 
         #--- B.1.v. JSON Part 5: legal description (jsonLegalDescription) ---#
-        # Define new JSON to hold legal description
         self.jsonLegalDescription = {}
 
         #--- B.2. Determine map type (based on naming convention) ---#
 
         #--- B.2.i. Determine if it is Tract Map (TR), Parcel Map (PM), Record of Survey (RS), or None ---#
-        # Tract Map, Parcel Map or Record of Survey Map
         if "TR" in self.cadname:
             self.maptype = "Tract"
             self.mapid = self.cadname.split("TR")[1]
@@ -224,7 +218,6 @@ class amc(object):
             self.mapbooktype = None
 
         #--- B.2.ii. Populate JSON variables in jsonControls with map information ---#
-        # Populate the JSON controls with the map information data for the project
         self.jsonControls["MapType"] = self.maptype
         self.jsonControls["MapID"] = self.mapid
         self.jsonControls["MapBookType"] = self.mapbooktype
@@ -234,19 +227,15 @@ class amc(object):
 
         #--- B.3. Set spatial reference (ArcGIS: 102646) ---#
 
-        # Define the project"s spatial reference: NAD83 State Plane California Zone 6
+        # Define the project's spatial reference: NAD83 State Plane California Zone 6
         self.sr = arcpy.SpatialReference(102646)
         self.appendReport("Setting Spatial Reference: NAD83 State Plane California Zone 6 (ArcGIS ID: 102646)\n")
 
         #--- B.4. Set initial arcpy workspace for project ---#
-
-        # Set the initial workspace for the project's folder
         arcpy.env.workspace = self.outpath
         arcpy.env.OverwriteOutput = True
 
         #--- B.5. Determine if code executes in the County's network domain (PFRDNET) ---#
-
-        # Determine if the computer is on the PFRDNET domain:
         if "PFRDNET" in socket.getfqdn():
             #--- B.5.i. If yes, create server geodatabase connection (SDE) and add it to the output directory ---#
             # Create a server geodatabase connection (for checks)
@@ -262,8 +251,6 @@ class amc(object):
             self.ocserver = None
 
         #--- B.6. Check 1: Create new geodatabase ---#
-
-        # Create new geodatabase
         self.checkGDB()
 
         # Change the arcpy workspace to the project"s geodatabase
@@ -271,17 +258,648 @@ class amc(object):
         arcpy.env.OverwriteOutput = True
 
         #--- B.7. Import the CAD drawing into the project's geodatabase ---#
-
-        # Import the CAD drawing into the project geodatabase
         self.appendReport("Added CAD drawing to geodatabase.")
         arcpy.CADToGeodatabase_conversion(self.cadpath, self.gdbpath, "CAD", "1000", self.sr)
         self.appendReport(self.getAgpMsg(1))
         self.appendReport(self.getAgpMsg(1))
 
         #--- B.8. Check 2: Check for the presence of all the layers in the CAD drawing ---#
-
-        # Check for the presence of all the layers in CAD drawing
         self.checkLayers()
+
+        #--- B.9. Check 3: Create feature classes and check closure for boundary processing ---#
+        self.createFeatureClasses()
+
+        #--- B.10. Check 4: Check for the GPS control points in CAD drawing ---#
+        self.checkGPS()
+
+        #--- B.11. Check 5: Check for geodetic control geometries ---#
+        self.checkGeodeticControls()
+
+        #--- B.12. Check 6: Check for the (True) Point of Beginning ---#
+        self.checkPOB()
+
+        #--- B.13. Check 7: Check for expanded boundary layers ---#
+        self.checkEBL()
+
+        #--- B.14. Check 8: Check for locations ---#
+        self.checkLocation()
+
+        #--- B.15. Check 9: Map type checks ---#
+        if self.maptype == "Tract":
+            self.checkServerTractMaps()
+        elif self.maptype == "Parcel":
+            self.checkServerParcelMaps()
+        elif self.maptype == "Record of Survey":
+            self.checkServerRecordsOfSurvey()
+
+        #--- B.16. Obtain the number of boundary parcels in the boundary geometry ---#
+        self.nParcels = self.jsonControls["Parcels"] = int(arcpy.GetCount_management("PARCELS")[0])
+        self.appendReport("Number of parcels in boundary area: {}\n".format(self.nParcels))
+
+        #--- B.17. Get the course data (traverse order) ---#
+        self.traverseCourse()
+
+        #--- B.18. Check the boundary geometry and correct if needed ---#
+        self.correctBoundaryGeometry()
+
+        etime = datetime.datetime.now().strftime("%m/%d/%Y %H:%M %p")
+        self.appendReport("Script completed on: {}\n\n".format(etime))
+
+        return 
+
+
+
+
+
+
+
+
+    #---------- AMC Class Function: Boundary Processing ----------#
+
+    def boundaryProcessing(self):
+        """
+        AMC Class Function: Processing CAD Boundaries
+        This function processes the Boundaries of the CAD drawing and performs basic checks. It also processes the boundary multiline features, create fields in the geodatabase's feature class, mathematically computes bearing, distances, radial angles, etc, for annotation labels and legal descriptions.
+        """
+
+        #--- SECTION C: Perform Boundary Processing ---#
+
+        stime = datetime.datetime.now().strftime("%m/%d/%Y %H:%M %p")
+        self.appendReport("\n{:-^80s}\n".format(" PART 2: AMC BOUNDARY FEATURE PROCESSING "))
+        self.appendReport("Script Started on: {}\n".format(stime))
+
+        self.appendReport("Processing Boundary Features for {}".format(self.cadname))
+
+        #--- C.1. Define boundary fields list ---#
+        # Create fields in boundary feature class to hold types and coordinates
+        boundaryFields = [["loid", "LONG", "", "Line ID"],
+                          ["coid", "LONG", "", "Course ID"], 
+                          ["poid", "LONG", "", "Parcel ID"],
+                          ["tpob", "TEXT", "", "TPOB Present"],
+                          ["shapetype", "TEXT", "", "Shape Type"], 
+                          ["wkt", "TEXT", "3000", "Well Known Text (WKT) Geometry"],
+                          ["nwkt", "LONG", "", "Points in WKT Geometry"],
+                          ["startx", "DOUBLE", "", "Startpoint X"], 
+                          ["starty", "DOUBLE", "", "Startpoint Y"], 
+                          ["midx", "DOUBLE", "", "Midpoint X"], 
+                          ["midy", "DOUBLE", "", "Midpoint Y"], 
+                          ["endx", "DOUBLE", "", "Endpoint X"], 
+                          ["endy", "DOUBLE", "", "Endpoint Y"], 
+                          ["midchordx", "DOUBLE", "", "Mid-chord X"],
+                          ["midchordy", "DOUBLE", "", "Mid-chord Y"],
+                          ["centerx", "DOUBLE", "", "Radial Center X"],
+                          ["centery", "DOUBLE", "", "Radial Center Y"],
+                          ["bearing", "DOUBLE", "", "Line Bearing or Chord Bearing"],
+                          ["distance", "DOUBLE", "", "Line Distance or Chord Length"],
+                          ["height", "DOUBLE", "", "Height of Line/Arc"],
+                          ["arclength", "DOUBLE", "", "Arc Length"],
+                          ["radius", "DOUBLE", "", "Arc Radius"],
+                          ["midbearing", "DOUBLE", "", "Mid-chord Bearing to Center"],
+                          ["delta", "DOUBLE", "", "Radial Curve Angle"],
+                          ["radbearing_cs", "DOUBLE", "", "Radial Bearing: Center to Start"],
+                          ["radbearing_sc", "DOUBLE", "", "Radial Bearing: Start to Center"],
+                          ["radbearing_ce", "DOUBLE", "", "Radial Bearing: Center to End"],
+                          ["radbearing_st", "DOUBLE", "", "Radial Tangent Angle at Start"],
+                          ["radtangent", "TEXT", "", "Radial Tangent Description"],
+                          ["desc_grid", "TEXT", "3000", "Legal Description (Grid)"],
+                          ["desc_ground", "TEXT", "3000", "Legal Description (Ground)"],
+                          ["ann_grid", "TEXT", "", "Annotation (Grid)"],
+                          ["ann_ground", "TEXT", "", "Annotation (Ground)"],
+                          ["annweb_grid", "TEXT", "", "Web Annotation (Grid)"],
+                          ["annweb_ground", "TEXT", "", "Web Annotation (Ground)"]]
+
+        #--- C.2. Add fields to the boundary feature class table in the geodatabase ---#
+        for field in boundaryFields:
+            arcpy.AddField_management("PIQ", field_name = field[0], field_type = field[1], field_length = field[2], field_alias = field[3])
+
+        self.appendReport("\tAdded {} new fields to boundary feature class".format(len(boundaryFields)))
+
+        # Check boundary closure and populate types and coordinates
+        with arcpy.da.UpdateCursor("PIQ", ["OID@", "SHAPE@"] + [field[0] for field in boundaryFields]) as cursor:
+
+            # Create empty JSON string to hold results of the loop
+            self.jsonBoundary = {}
+            # Define fields for JSON data string structure
+            jsonFields = ["coid", "poid", "tpob", "shapetype", "wkt", "nwkt", "wktpoints", "startx", "starty", "midx", "midy", "endx", "endy", "midchordx", "midchordy", "centerx", "centery", "bearing", "distance", "height", "arclength", "radius", "midbearing", "delta", "radbearing_cs", "radbearing_sc", "radbearing_ce", "radbearing_st", "radtangent", "desc_grid", "desc_ground", "ann_grid", "ann_ground", "annweb_grid", "annweb_ground"]
+
+            # Loop through lines in feature"s multilines
+            for row in cursor:
+                oid = row[0]
+                coid = row[2]
+                self.jsonBoundary[oid] = {} # Indexing from OBJECTID
+            
+                # Create empty JSON structure for each oid
+                for field in jsonFields:
+                    self.jsonBoundary[oid][field] = {}
+
+                # Loop all fields and create an empty JSON data structure for each OID
+                self.jsonBoundary[oid]["coid"] = coid
+
+                #----------Current Feature----------
+
+                # Start point coordinates
+                start = startx, starty = row[1].firstPoint.X, row[1].firstPoint.Y
+                row[8], row[9] = self.jsonBoundary[oid]["startx"], self.jsonBoundary[oid]["starty"] = start
+
+                # Mid point coordinates
+                mid = midx, midy = row[1].positionAlongLine(0.5, True).firstPoint.X, row[1].positionAlongLine(0.5, True).firstPoint.Y
+                row[10], row[11] = self.jsonBoundary[oid]["midx"], self.jsonBoundary[oid]["midy"] = mid
+
+                # End point coordinates
+                end = endx, endy = row[1].lastPoint.X, row[1].lastPoint.Y
+                row[12], row[13] = self.jsonBoundary[oid]["endx"], self.jsonBoundary[oid]["endy"] = end
+
+                # Mid-chord coordinates
+                midchord = midchordx, midchordy = (startx + endx)/2, (starty + endy)/2
+                row[14], row[15] = self.jsonBoundary[oid]["midchordx"], self.jsonBoundary[oid]["midchordy"] = midchord
+
+                # Line bearing or chord bearing
+                bearing = math.degrees(math.atan2(endx - startx, endy - starty)) % 360
+                row[18] = self.jsonBoundary[oid]["bearing"] = bearing
+
+                # Line distance or chord length
+                distance = math.hypot(endx - startx, endy - starty)
+                row[19] = self.jsonBoundary[oid]["distance"] = distance
+
+
+                # Mid-chord bearing
+                midbearing = math.degrees(math.atan2(midchordx - midx, midchordy - midy)) % 360
+                row[23] = self.jsonBoundary[oid]["midbearing"] = midbearing
+
+                # Height of Line/Arc
+                height = math.hypot(midchordx - midx, midchordy - midy)
+                row[20] = self.jsonBoundary[oid]["height"] = height
+
+
+                # Determine shape type and compute variables for lines and curves
+
+                if height == 0: 
+                    # This is a line
+                    shapetype = "Line"
+                    row[5] = self.jsonBoundary[oid]["shapetype"] = shapetype
+
+                elif height > 0: 
+                    # This is a curve
+                    shapetype = "Curve"
+                    row[5] = self.jsonBoundary[oid]["shapetype"] = shapetype
+
+                    # Arc radius length
+                    radius = (height / 2) + ((distance ** 2) / (8 * height))
+                    row[22] = self.jsonBoundary[oid]["radius"] = radius
+
+                    # Curve angle (delta)
+                    if height > (distance / 2): # below the diameter (more than half circle, e.g., cul-de-sac)
+                        delta = (360 - math.degrees(2 * math.asin(distance / (2 * radius)))) % 360
+                    else: # above or at the diamerer (less or equal of half  circle)
+                        delta = math.degrees( 2 * math.asin(distance / (2 * radius))) % 360
+                    row[24] = self.jsonBoundary[oid]["delta"] = delta
+
+                    # The coordinates of the center of the arc/curve
+                    center = centerx, centery = midx + (math.sin(math.radians(float(bearing))) * float(radius)), midy + (math.cos(math.radians(float(bearing))) * float(radius))
+                    row[16], row[17] = self.jsonBoundary[oid]["centerx"], self.jsonBoundary[oid]["centery"] = center
+
+                    # Tangent Check:
+                    radbearing_cs = math.degrees(math.atan2(startx - centerx, starty - centery)) % 360 # Radial bearing: center to start
+                    row[25] = self.jsonBoundary[oid]["radbearing_cs"] = radbearing_cs
+                    radbearing_sc = math.degrees(math.atan2(centerx - startx, centery - starty)) % 360 # Radial bearing: start to center
+                    row[26] = self.jsonBoundary[oid]["radbearing_sc"] = radbearing_sc
+                    radbearing_ce = math.degrees(math.atan2(endx - centerx, endy - centery)) % 360 # Radial bearing: center to end
+                    row[27] = self.jsonBoundary[oid]["radbearing_ce"] = radbearing_ce
+                    radbearing_st = (90 + radbearing_cs) % 360 # Radial Tangent Angle at start
+                    row[28] = self.jsonBoundary[oid]["radbearing_st"] = radbearing_st
+
+                    # Calculate arc length:
+                    arclength = (2 * math.pi * radius) * (delta / 360) # Arc Length
+                    row[21] = self.jsonBoundary[oid]["arclength"] = arclength
+
+
+
+                # Match the TPOB with the boundary files:
+
+                # Single TPOB
+                if self.jsonControls["TPOB"]["count"] == 1:
+                    coortpob = self.truncate(self.jsonControls["TPOB"]["points"][1]["x"], self.tolerance), self.truncate(self.jsonControls["TPOB"]["points"][1]["y"], self.tolerance)
+                    coorstart = self.truncate(startx, self.tolerance), self.truncate(starty, self.tolerance)
+                    if coortpob == coorstart:
+                        row[4] = self.jsonBoundary[oid]["tpob"] = True
+                    else:
+                        row[4] = self.jsonBoundary[oid]["tpob"] = False
+
+                # Multiple TPOB
+                elif self.jsonControls["TPOB"]["count"] > 1:
+                    for i in self.jsonControls["TPOB"]["points"]:
+                        coortpob = self.truncate(self.jsonControls["TPOB"]["points"][i]["x"], self.tolerance), self.truncate(self.jsonControls["TPOB"]["points"][i]["y"], self.tolerance)
+                        coorstart = self.truncate(startx, self.tolerance), self.truncate(starty, self.tolerance)
+                        if coortpob == coorstart:
+                            row[4] = self.jsonBoundary[oid]["tpob"] = True
+                        else:
+                            row[4] = self.jsonBoundary[oid]["tpob"] = False
+
+
+                # Well Known Text (WKT) from object"s geometry
+                wkt = row[1].WKT
+                row[6] = self.jsonBoundary[oid]["wkt"] = wkt
+
+                # Convert WKT to array format
+                wktpoints = [i.split(" ") for i in wkt.split("((")[1].split("))")[0].split(", ")]
+                # if float needed (to be tested use the code below)
+                wktpoints = [[float(j) for j in i] for i in wktpoints]
+                self.jsonBoundary[oid]["wktpoints"] = wktpoints
+            
+                # List and number of points in WKT
+                wktlist = wkt.split("((")[1].split("))")[0].replace(" 0, ",",").replace(" 0", "").split(",")
+                nwkt = len(wktlist) # Number of points in WKT geometry
+                row[7] = self.jsonBoundary[oid]["wktcount"] = nwkt
+
+                cursor.updateRow(row)
+
+
+        self.appendReport("\tCalculated and populated new fields in boundary feature class")
+
+
+        # Repeat the same loop after writing all the previous fields and variables
+        with arcpy.da.UpdateCursor("PIQ", ["OID@", "SHAPE@"] + [field[0] for field in boundaryFields]) as cursor:
+            for row in cursor:
+                oid = row[0]
+                coid = row[2]
+                # Total number of features in feature class:
+                nrows = int(arcpy.GetCount_management("PIQ")[0])
+
+                # Get the last feature from the current one looping:
+                if coid == 1:
+                    lcoid = nrows # Last coid
+                elif coid > 1:
+                    lcoid = coid - 1
+
+                #---------- Current Feature ----------
+
+                # Get shapetype, start, mid, end, chordlength, midchord and height from feature attributes
+                shapetype = row[5]
+                start = startx, starty = row[8], row[9]
+                mid = midx, midy = row[10], row[11]
+                end = endx, endy = row[12], row[13]
+                midchord = midchordx, midchordy = row[14], row[15]
+                center = centerx, centery = row[16], row[17]
+                bearing = row[18]
+                distance = row[19]            
+                height = row[20]
+                arclength = row[21]
+                radius = row[22]
+                midbearing = row[23]
+                delta = row[24]
+                radbearing_cs = row[25]
+                radbearing_sc = row[26]
+                radbearing_ce = row[27]
+                radbearing_st = row[28]
+
+
+
+                # Get the preamp for the description
+                if self.jsonBoundary[oid]["tpob"] is True:
+                    preamp = "Thence from said {}".format(self.tpobstring)
+                else:
+                    preamp = " Thence"
+
+                # Get the closing for the description
+                if coid == nrows:
+                    closing = " to the {}".format(self.tpobstring)
+                else:
+                    closing = ""
+
+
+                # If current feature is a line:
+                if shapetype == "Line":
+
+                    # Get the line description string depending on the bearing direction
+                    if 0 <= bearing <= 90:
+                        dbearing = "North {} East".format(self.dd2dms(bearing))
+                        abearing = "N {} E".format(self.dd2dms(bearing))
+                    elif 90 < bearing <= 180:
+                        dbearing = "South {} East".format(self.dd2dms(180 - bearing))
+                        abearing = "S {} E".format(self.dd2dms(180 - bearing))
+                    elif 180 < bearing <= 270:
+                        dbearing = "South {} West".format(self.dd2dms(bearing - 180))
+                        abearing = "S {} W".format(self.dd2dms(bearing - 180))
+                    elif 270 < bearing <= 360:
+                        dbearing = "North {} West".format(self.dd2dms(360 - bearing))
+                        abearing = "N {} W".format(self.dd2dms(360 - bearing))
+
+                    # Legal description (line)
+                    desc_grid = "{} {}, {:.2f} feet;{}".format(preamp, dbearing, self.truncate(distance, self.tolerance), closing)
+                    desc_ground = "{} {} {:.2f} feet;{}".format(preamp, dbearing, self.truncate(distance/self.scalefactor, self.tolerance), closing)
+                    row[30] = self.jsonBoundary[oid]["desc_grid"] = desc_grid
+                    row[31] = self.jsonBoundary[oid]["desc_ground"] = desc_ground
+
+                    # Annotation (line) for labels and web use
+                    ann_grid = "{}  {:.2f}".format(abearing, self.truncate(distance, self.tolerance))
+                    ann_ground = "{}  {:.2f}".format(abearing, self.truncate(distance/self.scalefactor, self.tolerance))
+                    row[32] = self.jsonBoundary[oid]["ann_grid"] = ann_grid
+                    row[33] = self.jsonBoundary[oid]["ann_ground"] = ann_ground
+                    annweb_grid = "{}\n{:.2f}".format(abearing, self.truncate(distance, self.tolerance))
+                    annweb_ground = "{}\n{:.2f}".format(abearing, self.truncate(distance/self.scalefactor, self.tolerance))
+                    row[34] = self.jsonBoundary[oid]["annweb_grid"] = annweb_grid
+                    row[35] = self.jsonBoundary[oid]["annweb_ground"] = annweb_ground
+
+
+                # Else, if current feature is a curve:
+                elif shapetype == "Curve":
+
+                    # Premp for description
+                    if self.jsonBoundary[oid]["tpob"] is False:
+                        preamp = ""
+
+                    # Get the characteristics of the previous (last) feature
+                    with arcpy.da.SearchCursor("PIQ", ["OID@", "SHAPE@"] + [field[0] for field in boundaryFields]) as lcursor:
+                        for lrow in lcursor:
+                            if lrow[2] == lcoid:
+                                loid = lrow[0]
+                                ltpob = lrow[4]
+                                lshapetype = lrow[5]
+                                lstart = lstartx, lstarty = lrow[8], lrow[9]
+                                lmid = lmidx, lmidy = lrow[10], lrow[11]
+                                lend = lendx, lendy = lrow[12], lrow[13]
+                                lmidchord = lmidchordx, lmidchordy = lrow[14], lrow[15]
+                                lcenter = lcenterx, lcentery = lrow[16], lrow[17]
+                                lbearing = lrow[18]
+                                ldistance = lrow[19]
+                                lheight = lrow[20]
+                                larclength = lrow[21]
+                                lradius = lrow[22]
+                                lmidbearing = lrow[23]
+                                ldelta = lrow[24]
+                                lradbearing_cs = lrow[25]
+                                lradbearing_sc = lrow[26]
+                                lradbearing_ce = lrow[27]
+                                lradbearing_st = lrow[28]
+
+
+                    # Determine the last shape:
+                    if lshapetype == "Line":
+                        # if the line bearing equals to the tangent bearing of the center-to-startpoint angle
+                        if self.truncate(radbearing_st, self.tolerance) == self.truncate(lbearing, self.tolerance):
+                            radtangent = "Tangent"
+                        else:
+                            radtangent = "Non-Tangent"
+
+                    elif lshapetype == "Curve":
+                        if self.truncate(radbearing_cs, self.tolerance) == self.truncate(lradbearing_ce, self.tolerance):
+                            radtangent = "Compound"
+                        elif self.truncate(radbearing_cs, self.tolerance) == self.truncate(180 + lradbearing_ce, self.tolerance):
+                            radtangent = "Reverse"
+                        else:
+                            radtangent = "Non-Tangent"
+
+                    row[29] = self.jsonBoundary[oid]["radtangent"] = radtangent
+
+                    # Curve Description:
+
+                    if radtangent == "Tangent":
+                        desc_grid = "{} to the beginning of a curve, concave {}, and having a radius of {:.2f} feet; Thence {} along said curve {:.2f} feet through a central angle of {};{}".format(preamp, self.bearingLabel(midbearing), self.truncate(radius, self.tolerance), self.bearingLabel(bearing), self.truncate(arclength, self.tolerance), self.dd2dms(delta), closing)
+                        desc_ground = "{} to the beginning of a curve, concave {}, and having a radius of {:.2f} feet; Thence {} along said curve {:.2f} feet through a central angle of {};{}".format(preamp, self.bearingLabel(midbearing), self.truncate(radius/self.scalefactor, self.tolerance), self.bearingLabel(bearing), self.truncate(arclength/self.scalefactor, self.tolerance), self.dd2dms(delta), closing)
+                        ann_grid = "{}={}  R={:.2f}  L={:.2f}".format("\N{GREEK CAPITAL LETTER DELTA}", self.dd2dms(delta), self.truncate(radius, self.tolerance), self.truncate(arclength, self.tolerance))
+                        ann_ground = "{}={}  R={:.2f}  L={:.2f}".format("\N{GREEK CAPITAL LETTER DELTA}", self.dd2dms(delta), self.truncate(radius/self.scalefactor, self.tolerance), self.truncate(arclength/self.scalefactor, self.tolerance))
+                        annweb_grid = "{}={}\nR={:.2f}\nL={:.2f}".format("\u0394", self.dd2dms(delta), self.truncate(radius, self.tolerance), self.truncate(arclength, self.tolerance))
+                        annweb_ground = "{}={}\nR={:.2f}\nL={:.2f}".format("\u0394", self.dd2dms(delta), self.truncate(radius/self.scalefactor, self.tolerance), self.truncate(arclength/self.scalefactor, self.tolerance))
+
+                    elif radtangent == "Compound":
+                        desc_grid = "{} to the beginning of a compound curve concave {} and having a radius of {:.2f} feet; Thence {} along said curve {:.2f} feet through a central angle of {};{}".format(preamp, self.bearingLabel(midbearing), self.truncate(radius, self.tolerance), self.bearingLabel(bearing), self.truncate(arclength, self.tolerance), self.dd2dms(delta), closing)
+                        desc_ground = "{} to the beginning of a compound curve {} and having a radius of {:.2f} feet; Thence {} along said curve {:.2f} feet through a central angle of {};{}".format(preamp, self.bearingLabel(midbearing), self.truncate(radius/self.scalefactor, self.tolerance), self.bearingLabel(bearing), self.truncate(arclength/self.scalefactor, self.tolerance), self.dd2dms(delta), closing)
+                        ann_grid = "{}={}  R={:.2f}  L={:.2f}".format("\N{GREEK CAPITAL LETTER DELTA}", self.dd2dms(delta), self.truncate(radius, self.tolerance), self.truncate(arclength, self.tolerance))
+                        ann_ground = "{}={}  R={:.2f}  L={:.2f}".format("\N{GREEK CAPITAL LETTER DELTA}", self.dd2dms(delta), self.truncate(radius/self.scalefactor, self.tolerance), self.truncate(arclength/self.scalefactor, self.tolerance))
+                        annweb_grid = "{}={}\nR={:.2f}\nL={:.2f}".format("\u0394", self.dd2dms(delta), self.truncate(radius, self.tolerance), self.truncate(arclength, self.tolerance))
+                        annweb_ground = "{}={}\nR={:.2f}\nL={:.2f}".format("\u0394", self.dd2dms(delta), self.truncate(radius/self.scalefactor, self.tolerance), self.truncate(arclength/self.scalefactor, self.tolerance))
+
+                    elif radtangent == "Reverse":
+                        desc_grid = "{} to the beginning of a reverse curve concave {} and having a radius of {:.2f} feet; Thence {} along said curve {:.2f} feet through a central angle of {};{}".format(preamp, self.bearingLabel(midbearing), self.truncate(radius, self.tolerance), self.bearingLabel(bearing), self.truncate(arclength, self.tolerance), self.dd2dms(delta), closing)
+                        desc_ground = "{} to the beginning of a reverse curve concave {} and having a radius of {:.2f} feet; Thence {} along said curve {:.2f} feet through a central angle of {};{}".format(preamp, self.bearingLabel(midbearing), self.truncate(radius/self.scalefactor, self.tolerance), self.bearingLabel(bearing), self.truncate(arclength/self.scalefactor, self.tolerance), self.dd2dms(delta), closing)
+                        ann_grid = "{}={}  R={:.2f}  L={:.2f}".format("\N{GREEK CAPITAL LETTER DELTA}", self.dd2dms(delta), self.truncate(radius, self.tolerance), self.truncate(arclength, self.tolerance))
+                        ann_ground = "{}={}  R={:.2f}  L={:.2f}".format("\N{GREEK CAPITAL LETTER DELTA}", self.dd2dms(delta), self.truncate(radius/self.scalefactor, self.tolerance), self.truncate(arclength/self.scalefactor, self.tolerance))
+                        annweb_grid = "{}={}\nR={:.2f}\nL={:.2f}".format("\u0394", self.dd2dms(delta), self.truncate(radius, self.tolerance), self.truncate(arclength, self.tolerance))
+                        annweb_ground = "{}={}\nR={:.2f}\nL={:.2f}".format("\u0394", self.dd2dms(delta), self.truncate(radius/self.scalefactor, self.tolerance), self.truncate(arclength/self.scalefactor, self.tolerance))
+
+                    elif radtangent == "Non-Tangent":
+                        # Get the tangent description string depending on the bearing direction
+                        if 0 <= radbearing_cs <= 90:
+                            dbearing = "North {} East".format(self.dd2dms(radbearing_cs))
+                        elif 90 < radbearing_cs <= 180:
+                            dbearing = "South {} East".format(self.dd2dms(180 - radbearing_cs))
+                        elif 180 < radbearing_cs <= 270:
+                            dbearing = "South {} West".format(self.dd2dms(radbearing_cs - 180))
+                        elif 270 < radbearing_cs <= 360:
+                            dbearing = "North {} West".format(self.dd2dms(360 - radbearing_cs))
+
+                        desc_grid = "{} to the beginning of a non-tangent curve, concave {}, and having a radius of {:.2f} feet, a radial line to said beginning of curve bears {}; Thence {} along said curve {:.2f} feet through a central angle of {};{}".format(preamp, self.bearingLabel(midbearing), self.truncate(radius, self.tolerance), dbearing, self.bearingLabel(bearing), self.truncate(arclength, self.tolerance), self.dd2dms(delta), closing)
+                        desc_ground = "{} to the beginning of a non-tangent curve, concave {}, and having a radius of {:.2f} feet, a radial line to said beginning of curve bears {}; Thence {} along said curve {:.2f} feet through a central angle of {};{}".format(preamp, self.bearingLabel(midbearing), self.truncate(radius/self.scalefactor, self.tolerance), dbearing, self.bearingLabel(bearing), self.truncate(arclength/self.scalefactor, self.tolerance), self.dd2dms(delta), closing)
+                        ann_grid = "{}={}  R={:.2f}  L={:.2f}".format("\N{GREEK CAPITAL LETTER DELTA}", self.dd2dms(delta), self.truncate(radius, self.tolerance), self.truncate(arclength, self.tolerance))
+                        ann_ground = "{}={}  R={:.2f}  L={:.2f}".format("\N{GREEK CAPITAL LETTER DELTA}", self.dd2dms(delta), self.truncate(radius/self.scalefactor, self.tolerance), self.truncate(arclength/self.scalefactor, self.tolerance))
+                        annweb_grid = "{}={}\nR={:.2f}\nL={:.2f}".format("\u0394", self.dd2dms(delta), self.truncate(radius, self.tolerance), self.truncate(arclength, self.tolerance))
+                        annweb_ground = "{}={}\nR={:.2f}\nL={:.2f}".format("\u0394", self.dd2dms(delta), self.truncate(radius/self.scalefactor, self.tolerance), self.truncate(arclength/self.scalefactor, self.tolerance))
+
+                    # Adding the curve description to feature attributes and JSON data string
+                    row[30] = self.jsonBoundary[oid]["desc_grid"] = desc_grid
+                    row[31] = self.jsonBoundary[oid]["desc_ground"] = desc_ground
+                    row[32] = self.jsonBoundary[oid]["ann_grid"] = ann_grid
+                    row[33] = self.jsonBoundary[oid]["ann_ground"] = ann_ground
+                    row[34] = self.jsonBoundary[oid]["annweb_grid"] = annweb_grid
+                    row[35] = self.jsonBoundary[oid]["annweb_ground"] = annweb_ground
+
+                cursor.updateRow(row)
+
+
+        self.appendReport("\tGenerated line and curve descriptions for boundary features")
+
+
+
+    
+        # Make updates and corrections
+        with arcpy.da.UpdateCursor("PIQ", ["OID@", "SHAPE@"] + ["coid"] + [field[0] for field in boundaryFields]) as cursor:
+
+            # Loop through lines in multilines
+            for row in cursor:
+                oid = row[0]
+                coid = row[2]
+                nrows = int(arcpy.GetCount_management("PIQ")[0]) # Total number of multilines
+                shapetype = row[5]
+                radtangent = row[29]
+                desc_grid = row[30]
+                desc_ground = row[31]
+
+
+                # Get the previous and next multilines:
+                if coid == 1:
+                    lcoid = nrows # Last COID
+                    ncoid = coid + 1 # Next COID
+                elif coid > 1 and coid < nrows:
+                    lcoid = coid - 1
+                    ncoid = coid + 1
+                elif coid > 1 and coid == nrows:
+                    lcoid = coid - 1
+                    ncoid = 1
+
+                # Get the characteristics of the previous feature
+                with arcpy.da.SearchCursor("PIQ", ["OID@", "SHAPE@"] + ["coid"] + [field[0] for field in boundaryFields]) as lcursor:
+                    for lrow in lcursor:
+                        if lrow[2] == lcoid:
+                            lshapetype = lrow[5]
+                            lradtangent = lrow[29]
+                            lradbearing_cs = lrow[25]
+
+
+
+                # If current feature is a Line or a Non-Tangent curve and the previous is a tangent Curve:
+                if shapetype == "Line" or radtangent == "Non-Tangent":
+                    if lshapetype == "Curve" and lradtangent == "Tangent":
+                        desc_grid = desc_grid.replace("Thence", "Thence non-tangent to said curve")
+                        desc_ground = desc_ground.replace("Thence", "Thence non-tangent to said curve")
+                        row[30] = desc_grid
+                        row[31] = desc_ground
+                        self.jsonBoundary[oid]["desc_grid"] = desc_grid
+                        self.jsonBoundary[oid]["desc_ground"] = desc_ground
+
+                # If the first feature is a curve:
+                if coid == 1 and shapetype == "Curve":
+                    #newdesc1 = f"Thence from said {tpobstring} " + desc1.split(";")[1].replace("Thence ", "")
+                    desc_grid = desc_grid.split(";")[1]
+                    desc_ground = desc_ground.split(";")[1]
+                    row[30] = desc_grid
+                    row[31] = desc_ground
+                    self.jsonBoundary[oid]["desc_grid"] = desc_grid
+                    self.jsonBoundary[oid]["desc_ground"] = desc_ground
+
+                # if current feature is a line coming from a curve (radial)
+                if shapetype == "Line" and lshapetype == "Curve":
+                    if bearing == lradbearing_cs or bearing == (180 + lradbearing_cs) % 360:
+                        desc_grid = desc_grid.replace("Thence", "Thence radial to said curve")
+                        desc_ground = desc_ground.replace("Thence", "Thence radial to said curve")
+                        row[30] = desc_grid
+                        row[31] = desc_ground
+                        self.jsonBoundary[oid]["desc_grid"] = desc_grid
+                        self.jsonBoundary[oid]["desc_ground"] = desc_ground
+
+                cursor.updateRow(row)
+    
+        self.appendReport("\tCorrected descriptions for Legal Description formatting")
+        self.appendReport("\tMultiline Descriptions added to JSON data string")
+
+        if self.jsonBoundary is not None:
+            self.appendReport("\tBoundary Features Processing Complete: Passed\n")
+        else:
+            self.appendReport("\tBoundary Features Processing Complete: Failed\n")
+
+        # Write the derived annotation labels for the boundary geometry
+        self.appendReport("Annotation Labels (Grid)")
+        for i in range(len(self.jsonBoundary)):
+            jrow = [self.jsonBoundary[j] for j in self.jsonBoundary if self.jsonBoundary[j]["coid"] == i+1][0]
+            self.appendReport("\tCOID {} ({}): {}".format(i+1, jrow["shapetype"], jrow["ann_grid"].replace("Δ", "D")))
+
+        self.appendReport("\nAnnotation Labels (Ground)")
+        for i in range(len(self.jsonBoundary)):
+            jrow = [self.jsonBoundary[j] for j in self.jsonBoundary if self.jsonBoundary[j]["coid"] == i+1][0]
+            self.appendReport("\tCOID {} ({}): {}".format(i+1, jrow["shapetype"], jrow["ann_ground"].replace("Δ", "D")))
+
+        etime = datetime.datetime.now().strftime("%m/%d/%Y %H:%M %p")
+        self.appendReport("\nScript Completed on {}\n\n".format(etime))
+
+        return
+
+
+
+
+
+
+    #---------- AMC Class Function: Create Legal Description ----------#
+
+    def createLegalDescription(self):
+        """AMC Class Function: Create Legal Description
+        Generates a legal description document after boundary processing data
+        """
+
+        stime = datetime.datetime.now().strftime("%m/%d/%Y %H:%M %p")
+        self.appendReport("\n{:-^80s}\n".format(" PART 3: AMC LEGAL DESCRIPTION PROCESSING "))
+        self.appendReport("Script Started on: {}\n".format(stime))
+
+
+        # Create a map description
+        self.describeMapDocument()
+
+        # Create a Preamp (for Grid and Ground versions) from Horizontal Controls
+        self.describeHorizontalControls()
+
+        # Create the legal description
+        ldtext = []
+        gldtext = []
+        for i in self.course:
+            oid = self.course[i]["oid"]
+            desc = self.jsonBoundary[oid]["desc_grid"]
+            gdesc = self.jsonBoundary[oid]["desc_ground"]
+            ldtext.append(desc)
+            gldtext.append(gdesc)
+        self.ld = "".join(ldtext)
+        self.gld = "".join(gldtext)
+        self.ld.replace("; to the", ", to the")
+        self.gld.replace("; to the", ", to the")
+
+        # Write Legal Description to Report (grid)
+        self.appendReport("\n\nLEGAL DESCRIPTION (GRID)\n")
+        self.appendReport("\t{}".format(self.mapdesc))
+        self.appendReport("\t{}".format(self.preamp))
+        self.appendReport("\t{}\n".format(self.ld))
+
+        # Write Legal Description to Report (ground)
+        self.appendReport("\n\nLEGAL DESCRIPTION (GROUND)\n")
+        self.appendReport("\t{}".format(self.mapdesc))
+        self.appendReport("\t{}".format(self.gpreamp))
+        self.appendReport("\t{}\n".format(self.gld))
+
+        # Compile the JSON data for the legal description
+        self.jsonLegalDescription["Map"] = self.mapdesc
+        self.jsonLegalDescription["Grid"] = {}
+        self.jsonLegalDescription["Grid"]["Preamp"] = self.preamp
+        self.jsonLegalDescription["Grid"]["Course"] = self.ld
+        self.jsonLegalDescription["Ground"] = {}
+        self.jsonLegalDescription["Ground"]["Preamp"] = self.gpreamp
+        self.jsonLegalDescription["Ground"]["Course"] = self.gld
+        
+        etime = datetime.datetime.now().strftime("%m/%d/%Y %H:%M %p")
+        self.appendReport("\nScript Completed on {}\n\n".format(etime))
+
+        return
+
+
+    
+
+
+    #---------- AMC Class Function: Finalize Report ----------#
+
+    def finalizeReport(self):
+        """AMC Class Function: Finalize Report and Execution
+        Compiles and exports all data and reports and finishes up the execution
+        """
+        stime = datetime.datetime.now().strftime("%m/%d/%Y %H:%M %p")
+        self.appendReport("\n{:-^80s}\n".format(" PART 4: AMC PROCESS FINALIZATION "))
+        self.appendReport("Script Started on: {}\n".format(stime))
+
+        # Compile the final JSON data
+        response = {}
+        response["Execution"] = self.jsonExecution
+        response["Checks"] = self.jsonChecks
+        response["Boundaries"] = self.jsonBoundary
+        response["Controls"] = self.jsonControls
+        response["LegalDescription"] = self.jsonLegalDescription
+
+        os.chdir(self.outpath)
+        with open("jsonResponse.json", "w") as jsonfile:
+            json.dump(response, jsonfile)
+
+        self.appendReport("JSON Data String Output Written to Disk: jsonResponse.json\n")
+
+        etime = datetime.datetime.now().strftime("%m/%d/%Y %H:%M %p")
+        self.appendReport("\nScript Completed on {}\n\n".format(etime))
+
+
+        self.appendReport("\n{:^80s}\n".format("END OF EXECUTION REPORT"))
+
+        return response
 
 
 
@@ -437,6 +1055,8 @@ class amc(object):
 
     #---------- AMC Class Function: Create Feature Classes from Original CAD Drawing Layers ----------#
 
+    #--- B.9. Check 3: Create feature classes and check closure for boundary processing ---#
+
     def createFeatureClasses(self):
         """AMC Class Function: Create Feature Classes from Original CAD Drawing Layers
         Uses specific and verified layers from the imported CAD Drawing Features to generate feature classes in the geodatabase
@@ -464,6 +1084,8 @@ class amc(object):
 
 
     #---------- AMC Class Function: Check GPS Control Points ----------#
+
+    #--- Check 4: Check for the presence of GPS control points in CAD drawing ---#
 
     def checkGPS(self):
         """AMC Class Function: Check GPS Control Points
@@ -502,6 +1124,8 @@ class amc(object):
 
 
     #---------- AMC Class Function: Check Geodetic Control Point Geometries ----------#
+
+    #--- Check 5: Check for geodetic control geometries ---#
 
     def checkGeodeticControls(self):
         """AMC Class Function: Check Geodetic Controls
@@ -554,6 +1178,8 @@ class amc(object):
 
 
     #---------- AMC Class Function: Check for the presence of the (True) Point of Beginning ----------#
+
+    #--- B.12. Check 6: Check for the (True) Point of Beginning ---#
 
     def checkPOB(self):
         """AMC Class Function: Check for point of beginning
@@ -657,6 +1283,8 @@ class amc(object):
 
     #---------- AMC Class Function: Checking for expanded boundary layers ----------#
 
+    #--- B.13. Check 7: Check for expanded boundary layers ---#
+
     def checkEBL(self):
         """AMC Class Function: Check for expanded boundary layers
         Checking for expanded boundary layers in CAD drawing and corrects geometry if necessary
@@ -690,6 +1318,8 @@ class amc(object):
 
 
     #---------- AMC Class Function: Checks for closure ----------#
+
+    #--- CHeck 3: Create feature classes and check closure for boundary processing ---#
 
     def checkClosureCentroid(self):
         """AMC Class Function: Checks for closure
@@ -808,6 +1438,8 @@ class amc(object):
 
     #---------- AMC Class Function: Checks for location ----------#
 
+    #--- B.14. Check 8: Check for locations ---#
+
     def checkLocation(self):
         """AMC Class Function: Checks for location
         Checking county server geodatabase for location data on tract/parcel
@@ -892,6 +1524,8 @@ class amc(object):
 
     #---------- AMC Class Function: Checks for Tract Information ----------#
 
+    #--- B.15.i. Check 9: Map type checks ---#
+
     def checkServerTractMaps(self):
         """AMC Class Function: Tract Map Checking Information
         Checks for Tract Information from Server Geodatabase
@@ -959,6 +1593,8 @@ class amc(object):
 
     #---------- AMC Class Function: Checks for Parcel Information ----------#
 
+    #--- B.15.ii. Check 9: Map type checks ---#
+
     def checkServerParcelMaps(self):
         """AMC Class Function: Parcel Map Checking Information
         Checks for Parcel Information from Server Geodatabase
@@ -986,6 +1622,8 @@ class amc(object):
 
     #---------- AMC Class Function: Checks for Record of Survey Information ----------#
 
+    #--- B.15.iii. Check 9: Map type checks ---#
+
     def checkServerRecordsOfSurvey(self):
         """AMC Class Function: Record of Survey Map Checking Information
         Checks for Record of Survey Information from Server Geodatabase
@@ -1011,18 +1649,9 @@ class amc(object):
 
 
 
-    #---------- AMC Class Function: Truncating Values ----------#
-
-    def truncate(self, v, n):
-        """AMC Class Function: Truncating values
-        Truncates coordinates at the n-th decimal places, for the value v (double)
-        """
-        return math.floor(v * 10 ** n) / 10 ** n
-
-
-
-
     #---------- AMC Class Function: Get the Boundary Course Traverse Path ----------#
+
+    #--- B.17. Get the course data (traverse order) ---#
 
     def traverseCourse(self):
         """AMC Class Function: Boundary Course Traverse Path
@@ -1273,7 +1902,20 @@ class amc(object):
 
 
 
+    #---------- AMC Class Function: Truncating Values ----------#
+
+    def truncate(self, v, n):
+        """AMC Class Function: Truncating values
+        Truncates coordinates at the n-th decimal places, for the value v (double)
+        """
+        return math.floor(v * 10 ** n) / 10 ** n
+
+
+
+
     #---------- AMC Class Function: Obtain the Next Course Segment ----------#
+
+    #--- B.17. Get the course data (traverse order) ---#
 
     def nextCourseSegment(self, course, segments):
         """AMC Class Function: Get next segment in boundary course
@@ -1304,6 +1946,8 @@ class amc(object):
 
 
     #---------- AMC Class Function: Correct Boundary Geometry ----------#
+
+    #--- B.18. Check the boundary geometry and correct if needed ---#
 
     def correctBoundaryGeometry(self):
         """AMC Class Function: Correct Boundary Geometry

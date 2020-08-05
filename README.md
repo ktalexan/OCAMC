@@ -139,6 +139,11 @@ amc16|[1.6](/amc16)|2020|Development|Revised cumulative processing capabilities 
 >boundaryProcessing(self)
 >```
 >* This function processes the boundaries of the CAD drawing and performs basic checks. It also processes the boundary multiline features, creates fields in the geodatabase's feature class, mathematically computes bearing, distances, radial angles, etc, for annotation labels and legal descriptions.
+>* Calls the following functions:
+>    * *appendReport()*
+>    * *truncate()*
+>    * *dd2dms()*
+>    * *bearingLabel()*
 
 <br>
 
@@ -232,6 +237,9 @@ amc16|[1.6](/amc16)|2020|Development|Revised cumulative processing capabilities 
 >createFeatureClasses(self)
 >```
 >* Creates feature classes from original CAD drawing layers. Uses specific and verified layers from the imported CAD drawing features to generate feature classes in the geodatabase.
+>* Calls the following secondary functions:
+>    * *appendReport()*
+>    * *checkClosureCentroid()*
 
 <br>
 
@@ -241,6 +249,8 @@ amc16|[1.6](/amc16)|2020|Development|Revised cumulative processing capabilities 
 >checkGPS(self)
 >```
 >* Checks and verifies the presence of the GPS control points in the CAD drawing
+>* Calls the following secondary functions:
+>    * *appendReport()*
 
 <br>
 
@@ -250,6 +260,8 @@ amc16|[1.6](/amc16)|2020|Development|Revised cumulative processing capabilities 
 >checkGeodeticControls(self)
 >```
 >* Checks for geodetic control point geometries in server geodatabase.
+>* Calls the following secondary functions:
+>    * *appendReport()*
 
 <br>
 
@@ -259,6 +271,8 @@ amc16|[1.6](/amc16)|2020|Development|Revised cumulative processing capabilities 
 >checkPOB(self)
 >```
 >* Checks for the presence of the (True) point of beginning, either by the user, or in the CAD drawing. 
+>* Calls the following secondary functions:
+>    * *appendReport()*
 
 <br>
 
@@ -268,6 +282,8 @@ amc16|[1.6](/amc16)|2020|Development|Revised cumulative processing capabilities 
 >checkEBL(self)
 >```
 >* CHecking for expanded boundary layers in CAD drawing and corrects geometry if necessary.
+>* Calls the following secondary functions:
+>    * *appendReport()*
 
 <br>
 
@@ -277,6 +293,8 @@ amc16|[1.6](/amc16)|2020|Development|Revised cumulative processing capabilities 
 >checkClosureCentroid(self)
 >```
 >* Checks for closure: creating boundary polygon and returns it's centroid coordinates.
+>* Calls the following secondary functions:
+>    * *appendReport()*
 
 <br>
 
@@ -285,7 +303,9 @@ amc16|[1.6](/amc16)|2020|Development|Revised cumulative processing capabilities 
 >```python
 >checkLocation(self)
 >```
-> * Checking County server geodatabase for location data on tract/parcel.
+>* Checking County server geodatabase for location data on tract/parcel.
+>* Calls the following secondary functions:
+>    * *appendReport()*
 
 <br>
 
@@ -294,7 +314,9 @@ amc16|[1.6](/amc16)|2020|Development|Revised cumulative processing capabilities 
 >```python
 >checkServerTractMaps(self)
 >```
-> * Checks for Tract information from server geodatabase.
+>* Checks for Tract information from server geodatabase.
+>* Calls the following secondary functions:
+>    * *appendReport()*
 
 <br>
 
@@ -304,6 +326,8 @@ amc16|[1.6](/amc16)|2020|Development|Revised cumulative processing capabilities 
 >checkServerParcelMaps(self)
 >```
 >* Checks for Parcel information from server geodatabase.
+>* Calls the following secondary functions:
+>    * *appendReport()*
 
 <br>
 
@@ -313,15 +337,8 @@ amc16|[1.6](/amc16)|2020|Development|Revised cumulative processing capabilities 
 >checkServerRecordsOfSurvey(self)
 >```
 >* CHecks for Record of Survey information from server geodatabase.
-
-<br>
-
-#### Truncating Values
-
->```python
->truncate(self, v, n)
->```
->* Trybcates coordinates a the n-th decimal places, for the value v(double).
+>* Calls the following secondary functions:
+>    * *appendReport()*
 
 <br>
 
@@ -331,6 +348,19 @@ amc16|[1.6](/amc16)|2020|Development|Revised cumulative processing capabilities 
 >traverseCourse(self)
 >```
 >* Obtains the course and order for the boundary traverse path over multilines (PIQ).
+>* Calls the following secondary functions:
+>    * *appendReport()*
+>    * *truncate()*
+>    * *nextCourseSegment()*
+
+<br>
+
+#### Truncating Values
+
+>```python
+>truncate(self, v, n)
+>```
+>* Truncates coordinates a the n-th decimal places, for the value v(double).
 
 <br>
 
@@ -349,6 +379,8 @@ amc16|[1.6](/amc16)|2020|Development|Revised cumulative processing capabilities 
 >correctBoundaryGeometry(self)
 >```
 >* Checks and corrects (if needed) the boundary course geometry given a course and a direction (clockwise or counter-clockwise). The function checks the start and end endpoints and if need reversing it updating the featur class's multiline geometry in the geodatabase.
+>* Calls the following secondary functions:
+>    * *appendReport()*
 
 <br>
 
