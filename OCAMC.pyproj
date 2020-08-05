@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>deb765ed-74b4-408b-9ba9-88d81d192e71</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>amc15\amctest_single.py</StartupFile>
+    <StartupFile>amc16\amctest_phase2.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -41,6 +41,9 @@
     <Compile Include="amc13\scratch.py" />
     <Compile Include="amc14\ald.py" />
     <Compile Include="amc14\amc.py" />
+    <Compile Include="amc14\amctest.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="amc14\gpald.py" />
     <Compile Include="amc14\gpamc.py" />
     <Compile Include="amc14\pyamcld.py" />
@@ -50,6 +53,12 @@
     <Compile Include="amc15\amctest_separate.py" />
     <Compile Include="amc15\amctest_single.py" />
     <Compile Include="amc15\scratch15.py" />
+    <Compile Include="amc16\amc16.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="amc16\amctest_phase2.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="scratch.py" />
   </ItemGroup>
   <ItemGroup>
@@ -367,6 +376,9 @@
     <Content Include="amc13\gpCADtoAMC\TR18141_REVISION2_MASTER.dwg" />
     <Content Include="amc13\gpCADtoAMC\TR18141_REVISION2_MASTER.dwg.xml" />
     <Content Include="amc13\LDTemplate.docx" />
+    <Content Include="amc13\README.md">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="amc13\SealKH.png" />
     <Content Include="amc13\SealKH_orig.png" />
     <Content Include="amc13\Seal_Kevin.png" />
@@ -374,6 +386,9 @@
     <Content Include="amc13\SPOCDSQL1205.sde" />
     <Content Include="amc14\Automated Map Checking.tbx" />
     <Content Include="amc14\LDTemplate.docx" />
+    <Content Include="amc14\README.md">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="amc14\SealKH.png" />
     <Content Include="amc14\Test\input\TR18141_REVISION2_MASTER.dwg" />
     <Content Include="amc14\Test\output\Default.gdb\a00000001.gdbindexes" />
@@ -587,6 +602,9 @@
     <Content Include="amc15\AMC15AGP\Index\AMC15AGP\_2.cfs" />
     <Content Include="amc15\AMC15AGP\Index\Thumbnail\indx" />
     <Content Include="amc15\AMC15AGP\Index\Thumbnail\map.jpg" />
+    <Content Include="amc15\README.md">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="amc15\Test\AGP_AMC15\.pyHistory" />
     <Content Include="amc15\Test\AGP_AMC15\AGP_AMC15.aprx" />
     <Content Include="amc15\Test\AGP_AMC15\AGP_AMC15.gdb\a00000001.freelist" />
@@ -859,6 +877,10 @@
     <Content Include="amc15\Test\Output\SINGLE\TR18141\Reference.gdb\a00000017.spx" />
     <Content Include="amc15\Test\Output\SINGLE\TR18141\Reference.gdb\gdb" />
     <Content Include="amc15\Test\Output\SINGLE\TR18141\Reference.gdb\timestamps" />
+    <Content Include="amc16\README.md">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="amc16\Test\Input\TR18184_PHASE2.dwg" />
     <Content Include="DevNotes.md" />
     <Content Include="README.md" />
     <Content Include="samples\Boundary CAD Standards_07172020.xlsx" />
@@ -929,6 +951,10 @@
     <Folder Include="amc15\Test\Output\SINGLE\TR18141\" />
     <Folder Include="amc15\Test\Output\SINGLE\TR18141\Reference.gdb\" />
     <Folder Include="amc13\" />
+    <Folder Include="amc16\" />
+    <Folder Include="amc16\Test\" />
+    <Folder Include="amc16\Test\Input\" />
+    <Folder Include="amc16\Test\Output\" />
     <Folder Include="samples\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />

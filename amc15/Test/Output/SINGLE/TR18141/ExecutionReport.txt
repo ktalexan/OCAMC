@@ -1,11 +1,11 @@
                                 EXECUTION REPORT                                
                 County of Orange, OC Survey Geospatial Services                 
-Python Class AMC 1.5.dev1, Dr. Kostas Alexandridis Execution Date and Time: 07/31/2020 04:14 AM
+Python Class AMC 1.5.dev1, Dr. Kostas Alexandridis Execution Date and Time: 08/03/2020 07:45 AM
 
 
 ---------------------- PART 1: AMC BASE CHECKS EXECUTION -----------------------
 
-Script started on: 07/31/2020 04:14 AM
+Script started on: 08/03/2020 07:45 AM
 
 Identifying Map Characteristics from CAD drawing: 
 	Map Type: Tract
@@ -23,12 +23,12 @@ Project Geodatabase
 	...new geodatabase created.
 
 Added CAD drawing to geodatabase.
-	Start Time: Friday, July 31, 2020 4:14:30 AM
-	Succeeded at Friday, July 31, 2020 4:14:40 AM (Elapsed Time: 9.33 seconds)
+	Start Time: Monday, August 3, 2020 7:45:51 AM
+	Succeeded at Monday, August 3, 2020 7:46:00 AM (Elapsed Time: 9.05 seconds)
 
 
-	Start Time: Friday, July 31, 2020 4:14:30 AM
-	Succeeded at Friday, July 31, 2020 4:14:40 AM (Elapsed Time: 9.33 seconds)
+	Start Time: Monday, August 3, 2020 7:45:51 AM
+	Succeeded at Monday, August 3, 2020 7:46:00 AM (Elapsed Time: 9.05 seconds)
 
 
 Layer Checks
@@ -71,8 +71,8 @@ Boundary Polygon/Centroid Closure Check:
 GPS Control Point Check
 	GPS Points Check: Passed (2 points)
 	Adding points to geodatabase:
- 		Start Time: Friday, July 31, 2020 4:14:55 AM
-		Succeeded at Friday, July 31, 2020 4:14:56 AM (Elapsed Time: 0.55 seconds)
+ 		Start Time: Monday, August 3, 2020 7:46:15 AM
+		Succeeded at Monday, August 3, 2020 7:46:15 AM (Elapsed Time: 0.53 seconds)
 
 
 Geodetic Control Geometry Check
@@ -91,5 +91,4 @@ Tract Map Server Location Checks
 	Checking Tract Maps Server Features Failed: Script outside OCPW Domain.
 Number of parcels in boundary area: 11
 
-Traverse Course Report
 Traverse Course Report
