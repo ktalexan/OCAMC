@@ -16,14 +16,14 @@
   4. Create new execution report.
 
 **B. Perform basic checks (*baseChecks*)**
-  1. Define new JSON dictionaries to hold information:
+  1. Define new JSON assembly dictionaries to hold information:
      1. Part 1: execution information (*jsonExecution*)
      2. Part 2: record checks (*jsonChecks*)
      3. Part 3: control types (*jsonControls*)
      4. Part 4: boundary info (*jsonBoundary*)
      5. Part 5: legal description (*jsonLegalDescription*) 
   2. Determine map type (based on naming convention). For each below, get MapType, MapID, and MapBookType
-     1. Determine if it is Tract Map (TR), Parcel Map (PM) or Record of Survey (RS), or None.
+     1. Determine if it is Tract Map (TR), Parcel Map (PM), Record of Survey (RS), or None.
      2. Then populate maptype, mapid and mapbooktype JSON variables in *jsonControls*   
   3. Set spatial reference (ArcGIS: 102646)
   4. Set initial arcpy workspace for project.
