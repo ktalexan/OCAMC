@@ -4,7 +4,7 @@
 # Version: 1.6                                               #
 # Author: Dr. Kostas Alexandridis, GISP                      #
 # Organization: OC Survey Geospatial Services                #
-# Date: August 2020                                        #
+# Date: August 2020                                          #
 ##############################################################
 
 
@@ -15,7 +15,7 @@ import arcpy, os, sys, math, json, datetime, socket, pandas
 
 
 #============================================================#
-#  MAIN CLASS: amc                                           #
+#  MAIN CLASS: AMC                                           #
 #============================================================#
 
 
@@ -45,9 +45,11 @@ class amc(object):
     """
 
 
-    #========================= PART I: CLASS INITIALIZATION =========================#
+    #==================================================#
+    # PART I: CLASS INITIALIZATION                     #
+    #==================================================#
 
-    #--- SECTION A: Initialize class object (init) ---#
+    #==================== AMC Class Function: Initialization ====================#
 
     def __init__(self, cadpath, prjpath, outpath, cadname, scale, scalefactor, tpob=None, direction=None, tolerance=2):
         """
@@ -67,6 +69,7 @@ class amc(object):
         NOTES
             This function runs on instantiation of class.
         """
+        #=== SECTION A: Initialize class object (init) ===#
 
         #--- A.1. Define python class and system variables ---#
 
@@ -123,18 +126,20 @@ class amc(object):
 
 
 
+    #==================================================#
+    # PART II: MAIN CLASS FUNCTIONS                    #
+    #==================================================#
 
-    #========================= PART II: MAIN CLASS FUNCTIONS =========================#
 
+    #==================== AMC Class Function: Base Checks ====================#
 
-    #-------------------- AMC Class Function: Base Checks --------------------#
     def baseChecks(self):
         """
         AMC Class Function: Import CAD Drawing and perform basic checks
         Imports the CAD drawing and performs basic layer and geometry checks
         """
 
-        #--- SECTION B: Perform Basic Checks ---#
+        #=== SECTION B: Perform Basic Checks ===#
 
         self.appendReport("\n{:-^80s}\n".format(" PART 1: AMC BASE CHECKS EXECUTION "))
         stime = datetime.datetime.now().strftime("%m/%d/%Y %H:%M %p")
@@ -311,18 +316,15 @@ class amc(object):
 
 
 
-
-
-
-    #---------- AMC Class Function: Boundary Processing ----------#
+    #==================== AMC Class Function: Boundary Processing ====================#
 
     def boundaryProcessing(self):
         """
         AMC Class Function: Processing CAD Boundaries
-        This function processes the Boundaries of the CAD drawing and performs basic checks. It also processes the boundary multiline features, create fields in the geodatabase's feature class, mathematically computes bearing, distances, radial angles, etc, for annotation labels and legal descriptions.
+        This function processes the Boundaries of the CAD drawing and performs basic checks. It also processes the boundary multiline features, create fields in the geodatabase's feature class, mathematically computes bearing, distances, radial angles, etc, for annotation labels and legal descriptions
         """
 
-        #--- SECTION C: Perform Boundary Processing ---#
+        #=== SECTION C: Perform Boundary Processing ===#
 
         stime = datetime.datetime.now().strftime("%m/%d/%Y %H:%M %p")
         self.appendReport("\n{:-^80s}\n".format(" PART 2: AMC BOUNDARY FEATURE PROCESSING "))
@@ -374,15 +376,14 @@ class amc(object):
 
         self.appendReport("\tAdded {} new fields to boundary feature class".format(len(boundaryFields)))
 
-        # Check boundary closure and populate types and coordinates
+        #--- C.3. Check boundary closure and populate types and coordinates ---#
+
+        #--- C.3.i. Define fields for JSON data string structure ---#
+        self.jsonBoundary = {}
+        jsonFields = ["coid", "poid", "tpob", "shapetype", "wkt", "nwkt", "wktpoints", "startx", "starty", "midx", "midy", "endx", "endy", "midchordx", "midchordy", "centerx", "centery", "bearing", "distance", "height", "arclength", "radius", "midbearing", "delta", "radbearing_cs", "radbearing_sc", "radbearing_ce", "radbearing_st", "radtangent", "desc_grid", "desc_ground", "ann_grid", "ann_ground", "annweb_grid", "annweb_ground"]
+
+        #--- C.3.ii. Loop through rows in PIQ feature class multilines and populate attribute fields ---#
         with arcpy.da.UpdateCursor("PIQ", ["OID@", "SHAPE@"] + [field[0] for field in boundaryFields]) as cursor:
-
-            # Create empty JSON string to hold results of the loop
-            self.jsonBoundary = {}
-            # Define fields for JSON data string structure
-            jsonFields = ["coid", "poid", "tpob", "shapetype", "wkt", "nwkt", "wktpoints", "startx", "starty", "midx", "midy", "endx", "endy", "midchordx", "midchordy", "centerx", "centery", "bearing", "distance", "height", "arclength", "radius", "midbearing", "delta", "radbearing_cs", "radbearing_sc", "radbearing_ce", "radbearing_st", "radtangent", "desc_grid", "desc_ground", "ann_grid", "ann_ground", "annweb_grid", "annweb_ground"]
-
-            # Loop through lines in feature"s multilines
             for row in cursor:
                 oid = row[0]
                 coid = row[2]
@@ -496,7 +497,7 @@ class amc(object):
                             row[4] = self.jsonBoundary[oid]["tpob"] = False
 
 
-                # Well Known Text (WKT) from object"s geometry
+                # Well Known Text (WKT) from object's geometry
                 wkt = row[1].WKT
                 row[6] = self.jsonBoundary[oid]["wkt"] = wkt
 
@@ -517,7 +518,7 @@ class amc(object):
         self.appendReport("\tCalculated and populated new fields in boundary feature class")
 
 
-        # Repeat the same loop after writing all the previous fields and variables
+        #--- C.3.iii. Repeat the same loop after writing all the previous fields and variables ---#
         with arcpy.da.UpdateCursor("PIQ", ["OID@", "SHAPE@"] + [field[0] for field in boundaryFields]) as cursor:
             for row in cursor:
                 oid = row[0]
@@ -711,7 +712,7 @@ class amc(object):
 
 
     
-        # Make updates and corrections
+        #--- C.3.iv. Make another loop for updates and corrections ---#
         with arcpy.da.UpdateCursor("PIQ", ["OID@", "SHAPE@"] + ["coid"] + [field[0] for field in boundaryFields]) as cursor:
 
             # Loop through lines in multilines
@@ -786,7 +787,7 @@ class amc(object):
         else:
             self.appendReport("\tBoundary Features Processing Complete: Failed\n")
 
-        # Write the derived annotation labels for the boundary geometry
+        #--- C.4. Write the derived annotation labels for the boundary geometry to the JSON string ---#
         self.appendReport("Annotation Labels (Grid)")
         for i in range(len(self.jsonBoundary)):
             jrow = [self.jsonBoundary[j] for j in self.jsonBoundary if self.jsonBoundary[j]["coid"] == i+1][0]
@@ -807,25 +808,26 @@ class amc(object):
 
 
 
-    #---------- AMC Class Function: Create Legal Description ----------#
+    #==================== AMC Class Function: Create Legal Description ====================#
 
     def createLegalDescription(self):
         """AMC Class Function: Create Legal Description
         Generates a legal description document after boundary processing data
         """
+        #=== SECTION D: Process Legal Description ===#
 
         stime = datetime.datetime.now().strftime("%m/%d/%Y %H:%M %p")
         self.appendReport("\n{:-^80s}\n".format(" PART 3: AMC LEGAL DESCRIPTION PROCESSING "))
         self.appendReport("Script Started on: {}\n".format(stime))
 
 
-        # Create a map description
+        #--- D.1. Create a map description ---#
         self.describeMapDocument()
 
-        # Create a Preamp (for Grid and Ground versions) from Horizontal Controls
+        #--- D.2. Create a Preamp (for Grid and Ground versions) from Horizontal Controls ---#
         self.describeHorizontalControls()
 
-        # Create the legal description
+        #--- D.3. Create the legal description ---#
         ldtext = []
         gldtext = []
         for i in self.course:
@@ -869,17 +871,19 @@ class amc(object):
     
 
 
-    #---------- AMC Class Function: Finalize Report ----------#
+    #==================== AMC Class Function: Finalize Report ====================#
 
     def finalizeReport(self):
         """AMC Class Function: Finalize Report and Execution
         Compiles and exports all data and reports and finishes up the execution
         """
+        #=== SECTION E: Finalize Report ===#
+
         stime = datetime.datetime.now().strftime("%m/%d/%Y %H:%M %p")
         self.appendReport("\n{:-^80s}\n".format(" PART 4: AMC PROCESS FINALIZATION "))
         self.appendReport("Script Started on: {}\n".format(stime))
 
-        # Compile the final JSON data
+        #--- E.1. Compile the final JSON data from JSON strings ---#
         response = {}
         response["Execution"] = self.jsonExecution
         response["Checks"] = self.jsonChecks
@@ -905,12 +909,14 @@ class amc(object):
 
 
 
+    #==================================================#
+    # PART III:                                        #
+    # SECONDARY CLASS FUNCTIONS                        #
+    #==================================================#
 
-    #========================= PART III: SECONDARY CLASS FUNCTIONS =========================#
 
 
-
-    #---------- AMC Class Function: Append Report ----------#
+    #==================== AMC Class Function: Append Report ====================#
 
     def appendReport(self, string):
         """AMC Class Function: Append Execution Report"""
@@ -926,7 +932,7 @@ class amc(object):
 
 
 
-    #---------- AMC Class Function: Arcpy Message ----------#
+    #==================== AMC Class Function: Arcpy Message ====================#
 
     def getAgpMsg(self, ntabs=1):
         """AMC Class Function: Arcpy Message"""
@@ -938,14 +944,14 @@ class amc(object):
 
 
 
-    #---------- AMC Class Function: Check Project Geodatabase ----------#
-
-    #--- B.6. Check 1: Check new geodatabase ---#
+    #==================== AMC Class Function: Check Project Geodatabase ====================#
 
     def checkGDB(self):
         """AMC Class Function: Check Project Geodatabase
         Checks if the reference geodatabase exists. If it does, it deletes it and creates a new one.
         """
+        #--- B.6. Check 1: Check new geodatabase ---#
+
         self.appendReport("Project Geodatabase")
         self.gdbname = os.path.split(self.gdbpath)[1]
         self.appendReport("\tChecking for geodatabase: {}".format(self.gdbname))
@@ -965,14 +971,14 @@ class amc(object):
 
 
 
-    #---------- AMC Class Function: Check Layers in CAD ----------#
-
-    #--- B.8. Check 2: Check for the presence of all the layers in the CAD drawing ---#
+    #==================== AMC Class Function: Check Layers in CAD ====================#
 
     def checkLayers(self):
         """AMC Class Function: Check Layers in CAD
         Checks for the presence of all the layers in CAD Drawing. Records Pass/Fail in JSON Checks
         """
+
+        #--- B.8. Check 2: Check for the presence of all the layers in the CAD drawing ---#
 
         # List of all the default layer types to be checked
         self.layerChecks = {
@@ -1053,14 +1059,14 @@ class amc(object):
 
 
 
-    #---------- AMC Class Function: Create Feature Classes from Original CAD Drawing Layers ----------#
-
-    #--- B.9. Check 3: Create feature classes and check closure for boundary processing ---#
+    #==================== AMC Class Function: Create Feature Classes from Original CAD Drawing Layers ====================#
 
     def createFeatureClasses(self):
         """AMC Class Function: Create Feature Classes from Original CAD Drawing Layers
         Uses specific and verified layers from the imported CAD Drawing Features to generate feature classes in the geodatabase
         """
+        #--- B.9. Check 3: Create feature classes and check closure for boundary processing ---#
+
         self.appendReport("\nCreating New Feature Classes in Geodatabase")
         layers = [key for key in self.layerChecks if self.layerChecks[key]["FeatureClass"] is True]
         for lyr in layers:
@@ -1083,14 +1089,13 @@ class amc(object):
 
 
 
-    #---------- AMC Class Function: Check GPS Control Points ----------#
-
-    #--- Check 4: Check for the presence of GPS control points in CAD drawing ---#
-
+    #==================== AMC Class Function: Check GPS Control Points ====================#
+     
     def checkGPS(self):
         """AMC Class Function: Check GPS Control Points
         Checks and verifies the presence of the GPS Control Points in the CAD drawing
         """
+        #--- Check 4: Check for the presence of GPS control points in CAD drawing ---#
 
         # List all of GPS points in CAD drawing and checks to make sure there are at least two of them present
         self.appendReport("GPS Control Point Check")
@@ -1123,14 +1128,14 @@ class amc(object):
 
 
 
-    #---------- AMC Class Function: Check Geodetic Control Point Geometries ----------#
-
-    #--- Check 5: Check for geodetic control geometries ---#
+    #==================== AMC Class Function: Check Geodetic Control Point Geometries ====================#
 
     def checkGeodeticControls(self):
         """AMC Class Function: Check Geodetic Controls
         Checks for geodetic control point geometries in server geodatabase
         """
+
+        #--- Check 5: Check for geodetic control geometries ---#
 
         self.appendReport("Geodetic Control Geometry Check")
 
@@ -1177,15 +1182,14 @@ class amc(object):
 
 
 
-    #---------- AMC Class Function: Check for the presence of the (True) Point of Beginning ----------#
-
-    #--- B.12. Check 6: Check for the (True) Point of Beginning ---#
+    #==================== AMC Class Function: Check for the presence of the (True) Point of Beginning ====================#
 
     def checkPOB(self):
         """AMC Class Function: Check for point of beginning
         Checks for the presence of the (True) Point of Beginning
         """
-
+        #--- B.12. Check 6: Check for the (True) Point of Beginning ---#
+        
         # Dictionary to hold the coordinates of the TPOB points
         self.tpobdict = {}
         self.tpobdict["source"] = "none"
@@ -1281,14 +1285,14 @@ class amc(object):
 
 
 
-    #---------- AMC Class Function: Checking for expanded boundary layers ----------#
-
-    #--- B.13. Check 7: Check for expanded boundary layers ---#
+    #==================== AMC Class Function: Checking for expanded boundary layers ====================#
 
     def checkEBL(self):
         """AMC Class Function: Check for expanded boundary layers
         Checking for expanded boundary layers in CAD drawing and corrects geometry if necessary
         """
+
+        #--- B.13. Check 7: Check for expanded boundary layers ---#
 
         # Checking for expanded boundary layer
         self.appendReport("Expanded Boundary Layer Check:")
@@ -1317,14 +1321,14 @@ class amc(object):
 
 
 
-    #---------- AMC Class Function: Checks for closure ----------#
-
-    #--- CHeck 3: Create feature classes and check closure for boundary processing ---#
+    #==================== AMC Class Function: Checks for closure ====================#
 
     def checkClosureCentroid(self):
         """AMC Class Function: Checks for closure
         Checks for closure: creating boundary polygon and returns it's centroid coordinates
         """
+
+        #--- CHeck 3: Create feature classes and check closure for boundary processing ---#
 
         if arcpy.Exists("PARCELS"):
             arcpy.Delete_management("PARCELS")
@@ -1436,15 +1440,15 @@ class amc(object):
 
 
 
-    #---------- AMC Class Function: Checks for location ----------#
-
-    #--- B.14. Check 8: Check for locations ---#
+    #==================== AMC Class Function: Checks for location ====================#
 
     def checkLocation(self):
         """AMC Class Function: Checks for location
         Checking county server geodatabase for location data on tract/parcel
         """
-        
+
+        #--- B.14. Check 8: Check for locations ---#
+
         self.appendReport("Map Server Location Checks")
 
         # If PFRDNET domain (and server) exists:
@@ -1522,14 +1526,15 @@ class amc(object):
 
 
 
-    #---------- AMC Class Function: Checks for Tract Information ----------#
-
-    #--- B.15.i. Check 9: Map type checks ---#
+    #==================== AMC Class Function: Checks for Tract Information ====================#
 
     def checkServerTractMaps(self):
         """AMC Class Function: Tract Map Checking Information
         Checks for Tract Information from Server Geodatabase
         """
+        
+        #--- B.15.i. Check 9: Map type checks ---#
+        
         self.appendReport(f"Tract Map Server Location Checks")
 
         if self.ocserver:
@@ -1591,14 +1596,14 @@ class amc(object):
 
 
 
-    #---------- AMC Class Function: Checks for Parcel Information ----------#
-
-    #--- B.15.ii. Check 9: Map type checks ---#
+    #==================== AMC Class Function: Checks for Parcel Information ====================#
 
     def checkServerParcelMaps(self):
         """AMC Class Function: Parcel Map Checking Information
         Checks for Parcel Information from Server Geodatabase
         """
+        #--- B.15.ii. Check 9: Map type checks ---#
+        
         self.appendReport(f"Parcel Map Server Location Checks")
 
         # If PFRDNET domain (and server) exists:
@@ -1620,14 +1625,15 @@ class amc(object):
 
 
 
-    #---------- AMC Class Function: Checks for Record of Survey Information ----------#
-
-    #--- B.15.iii. Check 9: Map type checks ---#
+    #==================== AMC Class Function: Checks for Record of Survey Information ====================#
 
     def checkServerRecordsOfSurvey(self):
         """AMC Class Function: Record of Survey Map Checking Information
         Checks for Record of Survey Information from Server Geodatabase
         """
+        
+        #--- B.15.iii. Check 9: Map type checks ---#
+        
         self.appendReport(f"Tract Map Server Location Checks")
 
         # If PFRDNET domain (and server) exists:
@@ -1649,14 +1655,15 @@ class amc(object):
 
 
 
-    #---------- AMC Class Function: Get the Boundary Course Traverse Path ----------#
-
-    #--- B.17. Get the course data (traverse order) ---#
+    #==================== AMC Class Function: Get the Boundary Course Traverse Path ====================#
 
     def traverseCourse(self):
         """AMC Class Function: Boundary Course Traverse Path
         Obtains the course for the boundary traverse path
         """
+        
+        #--- B.17. Get the course data (traverse order) ---#
+        
         # Create empty directionaries for the pair of lines (either direction from the point of beginning or TPOB) to be selected, and the segments of multiline coordinates and OIDs from the boundary feature class in the geodatabase
         pair = {}
         segments = {}
@@ -1902,7 +1909,7 @@ class amc(object):
 
 
 
-    #---------- AMC Class Function: Truncating Values ----------#
+    #==================== AMC Class Function: Truncating Values ====================#
 
     def truncate(self, v, n):
         """AMC Class Function: Truncating values
@@ -1913,14 +1920,15 @@ class amc(object):
 
 
 
-    #---------- AMC Class Function: Obtain the Next Course Segment ----------#
-
-    #--- B.17. Get the course data (traverse order) ---#
+    #==================== AMC Class Function: Obtain the Next Course Segment ====================#
 
     def nextCourseSegment(self, course, segments):
         """AMC Class Function: Get next segment in boundary course
         Gets the next course coordinate based on the initial line (course[1]), and the line segment coordinates from ArcGIS Boundary Feature class. Returns a JSON string indexed by the order ID (the order to which the lines are added to the course), and for each item, the Boundary feature class OBJECTID, its true start and end coordinates (reversed from the feature class line direction if needed - always clockwise).
         """
+
+        #--- B.17. Get the course data (traverse order) ---#
+
         # This is the existing (initial) OID
         existing = [course[i]["oid"] for i in course.keys()]
         # Get the endpoint of the existing feature segment
@@ -1945,14 +1953,15 @@ class amc(object):
 
 
 
-    #---------- AMC Class Function: Correct Boundary Geometry ----------#
-
-    #--- B.18. Check the boundary geometry and correct if needed ---#
+    #==================== AMC Class Function: Correct Boundary Geometry ====================#
 
     def correctBoundaryGeometry(self):
         """AMC Class Function: Correct Boundary Geometry
         Checks and corrects (if needed) the boundary course geometry given a course and a direction (clockwise or counter-clockwise). The function checks the start and endpoints and if need reversing it updating the feature class's multiline geometry in the geodatabase.
         """
+        
+        #--- B.18. Check the boundary geometry and correct if needed ---#
+
         self.appendReport("Boundary Multiline Geometry Correction Check")
 
         # Update loop of the features in the geodatabase
@@ -1983,7 +1992,7 @@ class amc(object):
 
 
 
-    #---------- AMC Class Function: Decimal Degrees to Degrees-Minutes-Seconds ----------#
+    #==================== AMC Class Function: Decimal Degrees to Degrees-Minutes-Seconds ====================#
 
     def dd2dms(self, dd):
         """AMC Class Function: Decimal Degrees to Degrees-Minutes-Seconds.
@@ -1999,7 +2008,7 @@ class amc(object):
 
 
 
-    #---------- AMC Class Function: Bearing to Word ----------#
+    #==================== AMC Class Function: Bearing to Word ====================#
 
     def bearingLabel(self, bearing):
         """AMC Class Function: Bearing to Word
@@ -2030,13 +2039,15 @@ class amc(object):
 
 
 
-    #---------- AMC Class Function: Map Document Description ----------#
+    #==================== AMC Class Function: Map Document Description ====================#
     
     def describeMapDocument(self):
         """AMC Class Function: Map Document Description
         Generates a description of the map document
         """
         
+        #--- D.1. Create a map description ---#
+
         # Number of parcels in the boundary feature class
         nparcels = self.jsonControls["Parcels"]
         # Map type
@@ -2079,12 +2090,14 @@ class amc(object):
 
 
 
-    #---------- AMC Class Function: Describe Horizontal Controls ----------#
+    #==================== AMC Class Function: Describe Horizontal Controls ====================#
 
     def describeHorizontalControls(self):
         """AMC Class Function: Describe Horizontal Controls
         Obtains and generates the Preamp description from horizontal geodetic controls to the point of beginning
         """
+
+        #--- D.2. Create a Preamp (for Grid and Ground versions) from Horizontal Controls ---#
 
         tpobx, tpoby = self.tpob
         gpspoints = self.jsonControls["GPS"]
@@ -2172,7 +2185,7 @@ class amc(object):
 
 
 
-    #---------- AMC Class Function: Format Labels for Bearing and Distance ----------#
+    #==================== AMC Class Function: Format Labels for Bearing and Distance ====================#
 
     def labelBearingDistance(self, bearing, distance):
         """AMC Class Function: Format Labels for Bearing and Distance
@@ -2192,7 +2205,7 @@ class amc(object):
 
 
     
-    #---------- AMC Class Function: Generate CSV Boundary Table ----------#
+    #==================== AMC Class Function: Generate CSV Boundary Table ====================#
 
     def boundaryToTable(self):
         """AMC Class Function: Generate Boundary Table to CSV data
@@ -2278,5 +2291,6 @@ class amc(object):
 
  
 
-
-#========================= END OF PROGRAM =========================#
+#============================================================#
+# END OF PROGRAM                                             #
+#============================================================#
