@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>deb765ed-74b4-408b-9ba9-88d81d192e71</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>amc15\amctest_single.py</StartupFile>
+    <StartupFile>amc16\amctest_phase2.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -880,6 +880,9 @@
     <Content Include="amc16\README.md">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="amc16\Test\Input\TR18184_ESRI.dwg" />
+    <Content Include="amc16\Test\Input\TR18184_FORGE.dwg" />
+    <Content Include="amc16\Test\Input\TR18184_MASTER.dwg" />
     <Content Include="amc16\Test\Input\TR18184_PHASE2.dwg" />
     <Content Include="DevNotes.md" />
     <Content Include="README.md" />
@@ -895,6 +898,9 @@
     <Content Include="samples\TR18141_REVISION3_MASTER.dwg" />
     <Content Include="samples\TR18141_REVISION3_NOTAPART.dwg" />
     <Content Include="samples\TR18141_REVISION3_SEPARATE.dwg" />
+    <Content Include="samples\TR18184_ESRI.dwg" />
+    <Content Include="samples\TR18184_FORGE.dwg" />
+    <Content Include="samples\TR18184_MASTER.dwg" />
     <Content Include="samples\TR18184_PHASE2.dwg" />
   </ItemGroup>
   <ItemGroup>
