@@ -880,6 +880,9 @@
     <Content Include="amc16\README.md">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="amc16\Test\Input\TR18184_ESRI.dwg" />
+    <Content Include="amc16\Test\Input\TR18184_FORGE.dwg" />
+    <Content Include="amc16\Test\Input\TR18184_MASTER.dwg" />
     <Content Include="amc16\Test\Input\TR18184_PHASE2.dwg" />
     <Content Include="DevNotes.md" />
     <Content Include="README.md" />
@@ -895,6 +898,9 @@
     <Content Include="samples\TR18141_REVISION3_MASTER.dwg" />
     <Content Include="samples\TR18141_REVISION3_NOTAPART.dwg" />
     <Content Include="samples\TR18141_REVISION3_SEPARATE.dwg" />
+    <Content Include="samples\TR18184_ESRI.dwg" />
+    <Content Include="samples\TR18184_FORGE.dwg" />
+    <Content Include="samples\TR18184_MASTER.dwg" />
     <Content Include="samples\TR18184_PHASE2.dwg" />
   </ItemGroup>
   <ItemGroup>
