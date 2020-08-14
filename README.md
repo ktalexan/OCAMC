@@ -153,7 +153,7 @@ amc16|[1.6](/amc16)|2020|Development|Revised cumulative processing capabilities 
 
     Diagrammatically, the process is shown in the following graph:
 
-    ![boundaryProcessingAlgorithm](/documentation/AMCParcelDetectionAlgorithmFlowchart16.png)
+![boundaryProcessingAlgorithm](/documentation/AMCParcelDetectionAlgorithmFlowchart16.png)
 
 <br>
 
