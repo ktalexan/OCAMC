@@ -145,6 +145,10 @@ amc16|[1.6](/amc16)|2020|Development|Revised cumulative processing capabilities 
 >    * *dd2dms()*
 >    * *bearingLabel()*
 
+This function implements a rather complex algorithm
+
+![boundaryProcessingAlgorithm](/documentation/AMCParcelDetectionAlgorithmFlowchart16.png)
+
 <br>
 
 #### Create Legal Description
