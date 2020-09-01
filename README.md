@@ -151,7 +151,7 @@ amc16|[1.6](/amc16)|2020|Development|Revised cumulative processing capabilities 
     3. Which is the main parcel (largest area) when NOT-A-PART exclusions are present.
     4. The presence and matching of parcels with TPOB points in case of the existence of SEPARATE parcels in the drawing.
 
-    Diagrammatically, the process is shown in the following graph ([download PDF file here](/documentation/AMCParcelDetectionAlgorithmFlowchart.pdf)):
+    Diagrammatically, the process is shown in the following graph ([download PDF file here](/documentation/AMCParcelDetectionAlgorithmFlowchart16.pdf)):
 
 ![boundaryProcessingAlgorithm](/documentation/AMCParcelDetectionAlgorithmFlowchart16.png)
 
