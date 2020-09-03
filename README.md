@@ -145,6 +145,16 @@ amc16|[1.6](/amc16)|2020|Development|Revised cumulative processing capabilities 
 >    * *dd2dms()*
 >    * *bearingLabel()*
 
+* This function implements a rather complex parcel detection algorithm. The algorithm uses multiple geodatabase operations and queries to determine: 
+    1. How many parcels are contained in the boundary (V-LINE-PIQ) layer; 
+    2. The relationship between them (i.e., is there a SINGLE, SEPARATE, NOT-A-PART, etc). This version of the code (v1.6) enables the presence of multiple types of boundary parcels.
+    3. Which is the main parcel (largest area) when NOT-A-PART exclusions are present.
+    4. The presence and matching of parcels with TPOB points in case of the existence of SEPARATE parcels in the drawing.
+
+    Diagrammatically, the process is shown in the following graph ([download PDF file here](/documentation/AMCParcelDetectionAlgorithmFlowchart16.pdf)):
+
+![boundaryProcessingAlgorithm](/documentation/AMCParcelDetectionAlgorithmFlowchart16.png)
+
 <br>
 
 #### Create Legal Description
