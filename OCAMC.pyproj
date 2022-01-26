@@ -12,6 +12,7 @@
     <Name>OCAMC</Name>
     <RootNamespace>OCAMC</RootNamespace>
     <TestFramework>Pytest</TestFramework>
+    <InterpreterId>CondaEnv|CondaEnv|agpenv</InterpreterId>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -966,6 +967,9 @@
     <Folder Include="amc16\Test\Output\" />
     <Folder Include="documentation\" />
     <Folder Include="samples\" />
+  </ItemGroup>
+  <ItemGroup>
+    <InterpreterReference Include="CondaEnv|CondaEnv|agpenv" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
