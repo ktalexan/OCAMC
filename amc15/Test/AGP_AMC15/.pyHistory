@@ -1,2 +1,0 @@
-﻿with arcpy.da.UpdateCursor("PARCELS", ["OID@", "SHAPE@"]) as cursor:     for row in cursor:         oid = row[0]         arcpy.management.SelectLayerByLocation('Property Line Boundary', 'BOUNDARY_TOUCHES',"PARCELS")
-with arcpy.da.UpdateCursor("Property Line Boundary Area", ["OID@", "SHAPE@"]) as cursor:     for row in cursor:         oid = row[0]         arcpy.management.SelectLayerByLocation('Property Line Boundary', 'BOUNDARY_TOUCHES',"Property Line Boundary Area")
