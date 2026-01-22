@@ -1,0 +1,21 @@
+linters: linters_with_defaults(
+    assignment_linter(operator = "<-", allow_cascading_assign = TRUE, allow_right_assign = FALSE, allow_trailing = TRUE, allow_pipe_assign = FALSE),
+    brace_linter(allow_single_line = TRUE),
+    commas_linter(allow_trailing = FALSE),
+    commented_code_linter = NULL ,
+    equals_na_linter(),
+    function_left_parentheses_linter(),
+    indentation_linter(indent = 4L, hanging_indent_style = "never", assignment_as_infix = TRUE),
+    infix_spaces_linter(),
+    line_length_linter(length = NULL),
+    object_length_linter(length = 50L),
+    object_name_linter(styles = c("snake_case", "PascalCase", "UPPERCASE", "symbols", "lowercase", "dotted.case", "camelCase")),
+    object_usage_linter = NULL,
+    paren_body_linter(),
+    quotes_linter = NULL,
+    return_linter = NULL,
+    spaces_inside_linter(),
+    spaces_left_parentheses_linter(),
+    trailing_whitespace_linter(allow_empty_lines = TRUE, allow_in_strings = TRUE)
+    )
+    
