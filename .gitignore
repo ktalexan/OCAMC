@@ -197,11 +197,6 @@ cython_debug/
 # Desktop folder icon
 desktop.ini
 
-# Project Folder Exceptions
-admin/*
-data/*
-gis/*
-
 # Julia
 # Ignore user package directory, compiled caches and artifacts,
 # plus common build and editor temp files.
@@ -214,3 +209,8 @@ sys.*
 *.o
 *.so
 *.dylib
+
+# Project Folder Exceptions
+admin/*
+data/*
+gis/*
