@@ -211,6 +211,16 @@ sys.*
 *.dylib
 
 # Project Folder Exceptions
-admin/*
-data/*
-gis/*
+admin/**
+!admin/**/
+!admin/**/README.md
+!admin/**/repository_notes.md
+!admin/**/repo_vars.json
+
+data/**
+!data/**/
+!data/**/README.md
+
+gis/**
+!gis/**/
+!gis/**/README.md

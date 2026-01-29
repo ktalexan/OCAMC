@@ -151,8 +151,8 @@ class-attribute-naming-style = any
 #class-attribute-rgx =
 
 # Naming style matching correct class constant names.
-#class-const-naming-style = UPPER_CASE
-class-const-naming-style = snake_case
+class-const-naming-style = UPPER_CASE
+#class-const-naming-style = snake_case
 
 # Regular expression matching correct class constant names. Overrides class-
 # const-naming-style. If left empty, constant names will be checked with
@@ -167,8 +167,8 @@ class-naming-style = PascalCase
 #class-rgx =
 
 # Naming style matching correct constant names.
-#const-naming-style = UPPER_CASE
-const-naming-style = snake_case
+const-naming-style = UPPER_CASE
+#const-naming-style = snake_case
 
 # Regular expression matching correct constant names. Overrides constant-naming-
 # style. If left empty, constant names will be checked with the set naming
@@ -519,7 +519,7 @@ spelling-dict =
 spelling-ignore-comment-directives = fmt: on, fmt: off, noqa:, noqa, nosec, isort:skip, mypy:
 
 # List of comma separated words that should not be checked.
-spelling-ignore-words = calpa, legiScan, LegiScan, OCSWITRS, AGPSWITRS, ArcGIS, arcpy, arcgis
+spelling-ignore-words = calpa, legiScan, LegiScan, OCSWITRS, AGPSWITRS, ArcGIS, arcpy, arcgis, geopandas, GeoDataFrame, matplotlib, numpy, pandas, PyQt5, scipy, shapely, xarray, xarray.Dataset, xarray.DataArray, xarray.Variable, geodatabase, GeoSeries, SpatialDataFrame, DataFrame
 
 # A path to a file that contains the private dictionary; one word per line.
 spelling-private-dict-file =
