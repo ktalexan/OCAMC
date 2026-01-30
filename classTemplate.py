@@ -10,7 +10,7 @@
 # Import necessary libraries ----
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 import os
-import datetime as dt
+import datetime
 from typing import Union
 import json, pytz
 import pandas as pd
@@ -113,7 +113,7 @@ class ClassTemplate:
             prj_meta = json.load(f)
 
         # Set the metadata date as the current date
-        current_date = dt.date.today()
+        current_date = datetime.date.today()
         prj_meta["date"] = current_date.strftime("%Y-%m-%d")
 
         # Set the metadata version:

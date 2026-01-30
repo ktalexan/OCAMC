@@ -15,7 +15,7 @@ print("\nProject Template: Part 1 - Raw Data Processing\n")
 print("\n1. Import necessary libraries")
 
 import os
-import datetime as dt
+import datetime
 import pytz
 import pandas as pd
 from dotenv import load_dotenv
@@ -47,5 +47,5 @@ prj_dirs = clt.prj_dirs
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # End of Script ----
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-print("\nLast Execution:", dt.datetime.now().strftime("%Y-%m-%d"))
+print("\nLast Execution:", datetime.datetime.now().strftime("%Y-%m-%d"))
 print("End of Script")
